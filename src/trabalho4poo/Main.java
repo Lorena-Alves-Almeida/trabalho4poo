@@ -102,8 +102,9 @@ public class Main {
 						System.out.println("0-> SAIR.");
 						System.out.println("1-> Listar usuarios cadastrados.");
 						System.out.println("2-> Criar um projeto.");
-						System.out.println("4-> Listar projetos.");
-						System.out.println("3-> Pesquisar um projeto por meio de seu código.");
+						System.out.println("3-> Listar projetos.");
+						System.out.println("4-> Pesquisar um projeto por meio de seu código.");
+						System.out.println("5-> Excluir projeto.");
 
 						operacao = scn.nextInt();
 						switch (operacao) {
@@ -147,7 +148,6 @@ public class Main {
 								System.out.println("0-> SAIR");
 								System.out.println("1-> Adicionar colaborador.");
 								System.out.println("2-> Fazer o projeto.");
-								System.out.println("3-> cancelar o projeto.");
 
 								resposta = scn.nextInt();
 								switch (resposta) {
@@ -293,12 +293,9 @@ public class Main {
 
 									break;
 
-								case 3:
-                                   // cancelar a criacao do projeto
-									break;
 								}
 
-							} while (resposta == 1);
+							} while (resposta != 0);
 
 							break;
 
@@ -337,13 +334,27 @@ public class Main {
 							}
 
 							break;
+							
+						case 5:
+							
+							System.out.println("\nAVISO: Apenas o proprietario do projeto pode excui-lo.");
+							System.out.print("\nCodigo do projeto: ");
+							int codigoProjeto = scn.nextInt();
+							System.out.print("\nNome do proprietario: ");
+							String nomeProprietario = scn.next();
+							System.out.print("\nSenha: ");
+							String senhaProprietario = scn.next();
+
+							String excluiProjeto = sistema.excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
+							System.out.println(excluiProjeto);
+							break;
 						}
 
 					} while (operacao != 0);
 
 					break;
 
-					break;
+					
 				}
 
 			} while (escolha != 0);

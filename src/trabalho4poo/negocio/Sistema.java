@@ -33,7 +33,8 @@ public class Sistema {
 		}
 
 		for (int i = 0; i < Usuario.quantUsuarios; i++) {
-			if (proprietario.equals(usuarios.get(i).getNmUsuario()) && privacidade.equals("Publico") || privacidade.equals("Privado")) {
+			if (proprietario.equals(usuarios.get(i).getNmUsuario()) && privacidade.equals("Publico")
+					|| privacidade.equals("Privado")) {
 				proprietarioCadastro = usuarios.get(i);
 			}
 		}
@@ -61,14 +62,13 @@ public class Sistema {
 		if (colaboradorCadastro.equals(projetos.get(Projeto.quantProjetos).getProprietario())) {
 			colaboradorCadastro = null;
 			return "Falha ao adicionar colaborador!";
-		} 
-		
+		}
+
 		projetos.get(Projeto.quantProjetos).getColaboradores().add(colaboradorCadastro);
 		return "Colaborador adicionado com sucesso!";
 
 	}
 
-	
 	// funcao que mostra projeto por cdoigo
 	public Projeto projetoPorCod(int codProjeto) {
 
@@ -78,6 +78,28 @@ public class Sistema {
 			}
 		}
 		return null;
+	}
+
+	//excluir projeto
+	public String excluirProjeto(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
+
+		Usuario usuarioProjetoExcluido = null;
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (senhaProprietario == usuarios.get(i).getSenha() && nomeProprietario == usuarios.get(i).getNmUsuario()) {
+				usuarioProjetoExcluido = usuarios.get(i);
+			} else {
+				return "Senha ou nome de usuario invalido!";
+			}
+		}
+		for (int j = 0; j < projetos.size(); j++) {
+			if (codigoProjeto == projetos.get(j).getCdProjeto()
+					&& usuarioProjetoExcluido == projetos.get(j).getProprietario()) {
+				projetos.remove(projetos.get(j));
+			} else {
+				return "codigo incalido!";
+			}
+		}
+		return "Projeto excluido.";
 	}
 
 }
