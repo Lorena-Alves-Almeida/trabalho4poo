@@ -9,7 +9,7 @@ public class Projeto {
 	private Usuario proprietario;
 	private List<Usuario> colaboradores = new ArrayList<Usuario>();
 	private String projetoCodigo;
-	private int quantProjetos = 0;
+	public static int quantProjetos = 0;
 	
 	
 	public Projeto() {
@@ -50,9 +50,17 @@ public class Projeto {
 		this.proprietario = proprietario;
 	}
 
+	public List<Usuario> getColaboradores() {
+		return colaboradores;
+	}
+
+	public void setColaboradores(List<Usuario> colaboradores) {
+		if (colaboradores != null)
+		this.colaboradores = colaboradores;
+	}
 
 
-	public Projeto(String nmProjeto, Usuario proprietario) {
+	public Projeto(String nmProjeto, Usuario proprietario, List<Usuario> colaboradores) {
 		quantProjetos++;
 		this.cdProjeto = quantProjetos;
 		this.nmProjeto = nmProjeto;
@@ -60,5 +68,7 @@ public class Projeto {
 		this.colaboradores = colaboradores;
 		this.projetoCodigo = projetoCodigo;
 	}
+
+
 
 }

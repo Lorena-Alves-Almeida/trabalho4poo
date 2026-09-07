@@ -3,6 +3,10 @@ package trabalho4poo;
 import java.util.List;
 import java.util.Scanner;
 
+import trabalho4poo.ui.*;
+import trabalho4poo.negocio.*;
+import trabalho4poo.dados.*;
+
 public class Main {
 
 	static Scanner scn = new Scanner(System.in);
@@ -98,8 +102,7 @@ public class Main {
 						System.out.println("0-> SAIR.");
 						System.out.println("1-> Listar usuarios cadastrados.");
 						System.out.println("2-> Criar um projeto.");
-						System.out.println("3-> Listar os projetos de um usuario.");
-						System.out.println("4-> Pesquisar um projeto por meio de seu código.");
+						System.out.println("3-> Pesquisar um projeto por meio de seu código.");
 
 						operacao = scn.nextInt();
 						switch (operacao) {
@@ -151,7 +154,22 @@ public class Main {
 								case 1:
 									System.out.println();
 									System.out.println("----- Adicionar colaborador: -----");
+									System.out.println("\n ---- Usuarios: ----");
+									System.out.println("|COD.\t |NOME\t");
+									for (int i = 0; i < sistema.usuarios.size(); i++) {
+										if (sistema.usuarios.get(i) != null) {
+											System.out.printf("%-8s %-20s%n", sistema.usuarios.get(i).getCdUsuario(),
+													sistema.usuarios.get(i).getNmUsuario());
+										}
+									}
+                                    
+									System.out.print("\nNome do colaborador: ");
+									scn.nextLine();
+									String colaborador = scn.nextLine();
 
+									String adicionaColaborador = sistema.addColaborador(colaborador);
+									System.out.println(adicionaColaborador);
+									
 									break;
 
 								case 2:
@@ -280,11 +298,8 @@ public class Main {
 
 							break;
 
-						case 3:
-							// Listar os projetos de um usuario
-							break;
 
-						case 4:
+						case 3:
 							System.out.println();
 							System.out.println("================================================================");
 							System.out.println("--- Procurar projeto por codigo: ---");
