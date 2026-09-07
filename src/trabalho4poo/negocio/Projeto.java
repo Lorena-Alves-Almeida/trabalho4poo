@@ -1,4 +1,4 @@
-package trabalho4poo;
+package trabalho4poo.negocio;
 
 import java.util.ArrayList;
 import java.util.List;

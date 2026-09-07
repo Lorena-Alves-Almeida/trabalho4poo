@@ -3,8 +3,6 @@ package trabalho4poo;
 import java.util.List;
 import java.util.Scanner;
 
-import alessio.*;
-
 public class Main {
 
 	static Scanner scn = new Scanner(System.in);

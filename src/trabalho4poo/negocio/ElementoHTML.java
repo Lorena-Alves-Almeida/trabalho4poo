@@ -1,4 +1,4 @@
-package trabalho4poo;
+package trabalho4poo.negocio;
 
 import java.util.Map;
 import java.util.HashMap;
