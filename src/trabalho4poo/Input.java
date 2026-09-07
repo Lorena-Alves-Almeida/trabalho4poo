@@ -1,4 +1,4 @@
-package alessio;
+package trabalho4poo;
 
 public class Input extends ElementoHTML {
     private String tipo;
