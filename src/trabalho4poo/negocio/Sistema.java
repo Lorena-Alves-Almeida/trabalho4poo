@@ -2,6 +2,7 @@ package trabalho4poo.negocio;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import trabalho4poo.ui.*;
 import trabalho4poo.negocio.*;
 import trabalho4poo.*;
@@ -22,7 +23,7 @@ public class Sistema {
 	public List<Projeto> projetos = new ArrayList<Projeto>();
 
 	// funcao que cria um novo projeto
-	public String criarProjeto(String nmProjeto, String proprietario) {
+	public String criarProjeto(String nmProjeto, String proprietario, String privacidade) {
 
 		Usuario proprietarioCadastro = null;
 		for (int i = 0; i < projetos.size(); i++) {
@@ -32,7 +33,7 @@ public class Sistema {
 		}
 
 		for (int i = 0; i < Usuario.quantUsuarios; i++) {
-			if (proprietario.equals(usuarios.get(i).getNmUsuario())) {
+			if (proprietario.equals(usuarios.get(i).getNmUsuario()) && privacidade.equals("Publico") || privacidade.equals("Privado")) {
 				proprietarioCadastro = usuarios.get(i);
 			}
 		}
@@ -41,7 +42,7 @@ public class Sistema {
 			return "usuario nao encontrado!";
 		}
 
-		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, null));
+		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade, null));
 
 		return "Projeto criado com sucesso!";
 	}
@@ -67,11 +68,12 @@ public class Sistema {
 
 	}
 
+	
 	// funcao que mostra projeto por cdoigo
-	Projeto projetoPorCod(int codProjeto) {
+	public Projeto projetoPorCod(int codProjeto) {
 
 		for (int i = 0; i < projetos.size(); i++) {
-			if (codProjeto == projetos.get(i).getCdProjeto()) {
+			if (codProjeto == projetos.get(i).getCdProjeto() && projetos.get(i).getPrivacidade() == "Publico") {
 				return projetos.get(i);
 			}
 		}

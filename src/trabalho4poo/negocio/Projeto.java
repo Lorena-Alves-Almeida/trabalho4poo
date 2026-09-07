@@ -8,6 +8,7 @@ public class Projeto {
 	private String nmProjeto;
 	private Usuario proprietario;
 	private List<Usuario> colaboradores = new ArrayList<Usuario>();
+	private String privacidade;
 	private String projetoCodigo;
 	public static int quantProjetos = 0;
 	
@@ -50,6 +51,15 @@ public class Projeto {
 		this.proprietario = proprietario;
 	}
 
+	public String getPrivacidade() {
+		return privacidade;
+	}
+
+	public void setPrivacidade(String privacidade) {
+		if (privacidade != null)
+		this.privacidade = privacidade;
+	}
+	
 	public List<Usuario> getColaboradores() {
 		return colaboradores;
 	}
@@ -60,11 +70,12 @@ public class Projeto {
 	}
 
 
-	public Projeto(String nmProjeto, Usuario proprietario, List<Usuario> colaboradores) {
+	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores) {
 		quantProjetos++;
 		this.cdProjeto = quantProjetos;
 		this.nmProjeto = nmProjeto;
 		this.proprietario = proprietario;
+		this.privacidade = privacidade;
 		this.colaboradores = colaboradores;
 		this.projetoCodigo = projetoCodigo;
 	}

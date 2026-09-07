@@ -102,6 +102,7 @@ public class Main {
 						System.out.println("0-> SAIR.");
 						System.out.println("1-> Listar usuarios cadastrados.");
 						System.out.println("2-> Criar um projeto.");
+						System.out.println("4-> Listar projetos.");
 						System.out.println("3-> Pesquisar um projeto por meio de seu código.");
 
 						operacao = scn.nextInt();
@@ -132,8 +133,11 @@ public class Main {
 
 							System.out.print("\nNome do proprietario: ");
 							String proprietario = scn.nextLine();
+							
+							System.out.print("\nO projeto e Publico ou Privado? ");
+							String privacidade = scn.next();
 
-							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario);
+							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
 							System.out.println(criaProjeto);
 							int resposta;
 							do {
@@ -285,7 +289,7 @@ public class Main {
 									// Exemplo de uso da String criada:
 									System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
 									System.out.println(htmlGerado);
-									sistema.projetos.get(quantProjetos).projetoCodigo.add(htmlGerado);
+									sistema.projetos.get(Projeto.quantProjetos).projetoCodigo = htmlGerado ;
 
 									break;
 
@@ -300,9 +304,22 @@ public class Main {
 
 
 						case 3:
+							System.out.println("\n--- Lista de projetos: ---");
+							System.out.println("OBS.: apenas os projetos publicos serao mostrados.");
+							System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
+							for (int i = 0; i < sistema.projetos.size(); i++) {
+								if (sistema.projetos.get(i) != null && sistema.projetos.get(i).getPrivacidade() == "Publico") {
+									System.out.printf("%-8s %-20s %-16s%n", sistema.projetos.get(i).getCdProjeto(), 
+											sistema.projetos.get(i).getNmProjeto(), sistema.projetos.get(i).getProprietario());
+								}
+							}
+							break;
+							
+						case 4:
 							System.out.println();
 							System.out.println("================================================================");
 							System.out.println("--- Procurar projeto por codigo: ---");
+							System.out.println("OBS.: o projeto so sera mostrado se for publico.");
 							System.out.print("\nInsira o codigo da venda que voce esta procurando: ");
 							int codProjeto = scn.nextInt();
 
@@ -314,8 +331,6 @@ public class Main {
 							if (projetoCod != null) {
 								System.out.printf("%-8s %-20s %-16s%n", codProjeto, projetoCod.getNmProjeto(),
 										projetoCod.getProprietario());
-
-								System.out.println("\n----- Colaboradores do projeto: -----");
 
 							} else {
 								System.out.println("Codigo nao encontrado.");
