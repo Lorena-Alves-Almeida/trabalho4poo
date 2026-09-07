@@ -3,8 +3,6 @@ package trabalho4poo;
 import java.util.ArrayList;
 import java.util.List;
 
-import alessio.*;
-
 public class Projeto {
 	private int cdProjeto;
 	private String nmProjeto;

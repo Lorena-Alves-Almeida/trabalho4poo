@@ -3,8 +3,6 @@ package trabalho4poo;
 import java.util.List;
 import java.util.ArrayList;
 
-import alessio.*;
-
 
 public class Usuario {
 	private int cdUsuario;
