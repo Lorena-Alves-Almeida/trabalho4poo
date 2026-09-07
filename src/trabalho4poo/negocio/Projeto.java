@@ -68,9 +68,18 @@ public class Projeto {
 		if (colaboradores != null)
 		this.colaboradores = colaboradores;
 	}
+	
+	public String getProjetoCodigo() {
+		return projetoCodigo;
+	}
+	
+	public void setProjetoCodigo(String projetoCodigo) {
+		if (projetoCodigo != null)
+		this.projetoCodigo = projetoCodigo;
+	}
 
 
-	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores) {
+	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores, String projetoCodigo) {
 		quantProjetos++;
 		this.cdProjeto = quantProjetos;
 		this.nmProjeto = nmProjeto;

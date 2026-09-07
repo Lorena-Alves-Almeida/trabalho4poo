@@ -136,6 +136,7 @@ public class Main {
 							String proprietario = scn.nextLine();
 							
 							System.out.print("\nO projeto e Publico ou Privado? ");
+							System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
 							String privacidade = scn.next();
 
 							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
@@ -289,7 +290,7 @@ public class Main {
 									// Exemplo de uso da String criada:
 									System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
 									System.out.println(htmlGerado);
-									sistema.projetos.get(Projeto.quantProjetos).projetoCodigo = htmlGerado ;
+									sistema.projetos.get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
 
 									break;
 

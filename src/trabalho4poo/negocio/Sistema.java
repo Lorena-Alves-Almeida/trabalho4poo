@@ -43,7 +43,7 @@ public class Sistema {
 			return "usuario nao encontrado!";
 		}
 
-		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade, null));
+		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade, null, null));
 
 		return "Projeto criado com sucesso!";
 	}
