@@ -1,6 +1,7 @@
 package trabalho4poo.negocio;
 
 import java.util.List;
+
 import java.util.ArrayList;
 
 
@@ -11,16 +12,32 @@ public class Usuario {
 //	private int tipo;
 
 	public static int quantUsuarios;
-	
-	private Usuario() {
-		System.out.println("Criou um objeto usuario()");
-	}
 
+    // Construtor de Usuário
+	public Usuario(String nmUsuario, String senha) {
+		cdUsuario++;
+		this.nmUsuario = nmUsuario;
+		this.senha = senha;
+		quantUsuarios++;
+	}
+	
+	// Construtor de cópia
 	public Usuario(Usuario outro) {
 		this.cdUsuario = outro.cdUsuario;
 		this.nmUsuario = outro.nmUsuario;
 		this.senha = outro.senha;
 	}
+
+    // Instance de Usuário
+    public static Usuario getInstance(String nmUsuario, String senha) {
+        if (nmUsuario != null && senha != null)
+            return new Usuario(nmUsuario, senha);
+        return null;
+    }
+	
+    public boolean autenticar(String nomeUsuario, String senha) {
+        return this.nmUsuario.equalsIgnoreCase(nomeUsuario) && this.senha.equals(senha);
+    }
 	
 	public int getCdUsuario() {
 		return cdUsuario;
@@ -35,7 +52,7 @@ public class Usuario {
 		return nmUsuario;
 	}
 
-	public void setNomeUsuario(String nmUsuario) {
+	public void setNmUsuario(String nmUsuario) {
 		if (!nmUsuario.isEmpty() && nmUsuario != null)
 			this.nmUsuario = nmUsuario;
 	}
@@ -47,23 +64,6 @@ public class Usuario {
 	public void setSenha(String senha) {
 		if (!senha.isEmpty() && senha != null)
 			this.senha = senha;
-	}
-
-//	public int getTipo() {
-//		return tipo;
-//	}
-//
-//	public void setTipo(int tipo) {
-//		if (tipo == 1 || tipo == 2)
-//			this.tipo = tipo;
-//	}
-
-	public Usuario(String nmUsuario, String senha/*, int tipo*/) {
-		cdUsuario++;
-		this.nmUsuario = nmUsuario;
-		this.senha = senha;
-//		this.tipo = tipo;
-		quantUsuarios++;
 	}
 
 }

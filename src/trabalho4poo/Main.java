@@ -3,6 +3,7 @@ package trabalho4poo;
 import java.util.List;
 import java.util.Scanner;
 
+import trabalho4poo.negocio.Usuario;
 import trabalho4poo.ui.*;
 import trabalho4poo.negocio.*;
 import trabalho4poo.dados.*;
@@ -11,7 +12,9 @@ public class Main {
 
 	static Scanner scn = new Scanner(System.in);
 
-	static Sistema sistema = new Sistema();
+	static Sistema sistema = Sistema.getInstance();
+	
+	private static UIUsuario uiusuario = new UIUsuario();
 
 	public static void main(String[] args) {
 
@@ -47,43 +50,18 @@ public class Main {
 					System.out.print("\nSenha: ");
 					String senha1 = scn.nextLine();
 
-					Usuario usuarioLogado = sistema.verificarUsuario(nomeUsuario1, senha1);
+					Usuario usuarioLogado = sistema.autenticarLogin(nomeUsuario1, senha1);
 					if (usuarioLogado != null) {
 						System.out.println("Perfil encontrado!");
-						escolha = usuarioLogado.getTipo();
 					} else {
 						System.out.println("Perfil nao encontrado ou inexistente");
 					}
-
+					menuPrincipal();
 					break;
 
 				case 2:
-					System.out.println("\n================================================================");
-					System.out.println("----- CADASTRO: ----");
-					System.out.print("\nNome do usuário: ");
-					scn.nextLine();
-					String nomeUsuario2 = scn.nextLine();
-
-					System.out.print("\nSenha: ");
-					String senha2 = scn.nextLine();
-
-					System.out.print("\nTipo: ");
-					System.out.println("1-> Atendente / 2-> Administrador");
-					int tipo2 = scn.nextInt();
-					while (tipo2 != 1 && tipo2 != 2) {
-						System.out.println("Opcao invalida! Escolha novamente.");
-						System.out.println("1-> Atendente / 2-> Administrador");
-
-						tipo2 = scn.nextInt();
-					}
-
-					Usuario usuarioCadastrado = sistema.inserirUsuario(nomeUsuario2, senha2, tipo2);
-					if (usuarioCadastrado != null) {
-						System.out.println("Login realizado com sucesso!");
-						escolha = usuarioCadastrado.getTipo();
-					} else {
-						System.out.println("Falha ao realizar login.");
-					}
+					cadastrarUsuario();
+					
 					break;
 				}
 
@@ -116,8 +94,9 @@ public class Main {
 						case 1:
 							System.out.println("\n--- Lista de usuarios cadastrados: ---");
 							System.out.println("|COD.\t |NOME\t");
-							for (int i = 0; i < sistema.usuarios.size(); i++) {
-								if (sistema.usuarios.get(i) != null) {
+							for (int i = 0; i < sistema.getUsuarios().size(); i++) {
+								if (sistema.getUsuarios().get(i) != null) {
+//ESSES ERROS EM USUARIO É SÓ TROCAR POR getUsuarios()
 									System.out.printf("%-8s %-20s%n", sistema.usuarios.get(i).getCdUsuario(),
 											sistema.usuarios.get(i).getNmUsuario());
 								}
@@ -543,5 +522,33 @@ public class Main {
 //		System.out.println("\n=== HTML GERADO COM SUCESSO ===");
 //		System.out.println(containerPrincipal.renderizar(0));
 
+	}
+	
+	static void cadastrarUsuario() {
+		System.out.println("\n================================================================");
+		System.out.println("----- CADASTRO: ----");
+		
+		
+		System.out.print("Nome: ");
+		String nome = scn.next();
+		System.out.print("Nome de usuário (login): ");
+		String nomeUsuario = scn.next();
+		if (sistema.existeNomeUsuario(nomeUsuario)) {
+			System.out.println("Login já cadastrado!");
+			return;
+		}
+		System.out.print("Senha: ");
+		String senha = scn.next();
+
+		Usuario novoUsuario = Usuario.getInstance(nome, senha);
+		if (novoUsuario != null && sistema.addUsuario(novoUsuario))
+			System.out.println("Usuário cadastrado com sucesso!");
+		else
+			System.out.println("Falha em cadastrar usuário.");
+		
+	} 
+	
+	static void menuPrincipal() {
+		
 	}
 }

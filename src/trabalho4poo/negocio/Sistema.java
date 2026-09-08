@@ -3,6 +3,7 @@ package trabalho4poo.negocio;
 import java.util.ArrayList;
 import java.util.List;
 
+import trabalho4poo.negocio.Usuario;
 import trabalho4poo.ui.*;
 import trabalho4poo.negocio.*;
 import trabalho4poo.*;
@@ -11,6 +12,9 @@ import trabalho4poo.dados.*;
 public class Sistema {
 
 	private static Sistema instance;
+	
+	private List<Usuario> usuarios;
+	private List<Projeto> projetos;
 
 	public static Sistema getInstance() {
 		if (instance == null) {
@@ -18,9 +22,11 @@ public class Sistema {
 		}
 		return instance;
 	}
-
-	public List<Usuario> usuarios = new ArrayList<Usuario>();
-	public List<Projeto> projetos = new ArrayList<Projeto>();
+	
+	private Sistema() {
+		projetos = new ArrayList<Projeto>();
+		usuarios = new ArrayList<Usuario>();
+	}
 
 	// funcao que cria um novo projeto
 	public String criarProjeto(String nmProjeto, String proprietario, String privacidade) {
@@ -96,10 +102,76 @@ public class Sistema {
 					&& usuarioProjetoExcluido == projetos.get(j).getProprietario()) {
 				projetos.remove(projetos.get(j));
 			} else {
-				return "codigo incalido!";
+				return "codigo invalido!";
 			}
 		}
 		return "Projeto excluido.";
+	}
+	
+	public boolean addUsuario(Usuario u) {
+		if (u == null)
+			return false;
+		return usuarios.add(u);
+	}
+
+	public Usuario buscarUsuarioPorId(int id) {
+		for (Usuario u : usuarios)
+			if (u.getCdUsuario() == id)
+				return u;
+		return null;
+	}
+
+	public Usuario buscarUsuarioPorLogin(String nomeUsuario) {
+		for (Usuario u : usuarios)
+			if (u.getNmUsuario().equalsIgnoreCase(nomeUsuario))
+				return u;
+		return null;
+	}
+
+	public boolean existeNomeUsuario(String nomeUsuario) {
+		return buscarUsuarioPorLogin(nomeUsuario) != null;
+	}
+
+	public boolean atualizarUsuario(int id, String nome,
+			String senha) {
+		Usuario u = buscarUsuarioPorId(id);
+		if (u == null)
+			return false;
+
+		if (nome != null)
+			u.setNmUsuario(nome);
+		if (senha != null)
+			u.setSenha(senha);
+		return true;
+	}
+
+	public boolean excluirUsuario(int id) {
+		Usuario u = buscarUsuarioPorId(id);
+		if (u == null)
+			return false;
+		return usuarios.remove(u);
+	}
+
+	public List<Usuario> listarUsuarios() {
+		return usuarios;
+	}
+	
+	public Usuario autenticarLogin(String nmUsuario, String senha) {
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (usuarios.get(i).getNmUsuario().equals(nmUsuario) && usuarios.get(i).getSenha().equals(senha))
+				return usuarios.get(i);
+		}return null;
+	}
+	
+	public List<Usuario> getUsuarios() {
+		List<Usuario> copia = new ArrayList<Usuario>();
+		for (int i = 0; i < usuarios.size(); i++) {
+
+			if (usuarios.get(i) != null)
+				copia.set(Usuario(usuarios.get(i))); //olhar no google como chamar o construtor para um arraylist
+		}
+
+		return copia;
 	}
 
 }
