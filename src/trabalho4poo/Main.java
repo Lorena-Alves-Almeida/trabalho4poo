@@ -15,6 +15,7 @@ public class Main {
 	static Sistema sistema = Sistema.getInstance();
 	
 	private static UIUsuario uiusuario = new UIUsuario();
+	private static UIProjeto uiprojeto = new UIProjeto();
 
 	public static void main(String[] args) {
 
@@ -103,22 +104,23 @@ public class Main {
 							break;
 
 						case 2:
-							System.out.println();
-							System.out.println("================================================================");
-							System.out.print("\n--- Criando um novo projeto: ---");
-							System.out.print("\nNome do projeto: ");
-							scn.nextLine();
-							String nmProjeto = scn.nextLine();
-
-							System.out.print("\nNome do proprietario: ");
-							String proprietario = scn.nextLine();
-							
-							System.out.print("\nO projeto e Publico ou Privado? ");
-							System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
-							String privacidade = scn.next();
-
-							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
-							System.out.println(criaProjeto);
+//							System.out.println();
+//							System.out.println("================================================================");
+//							System.out.print("\n--- Criando um novo projeto: ---");
+//							System.out.print("\nNome do projeto: ");
+//							scn.nextLine();
+//							String nmProjeto = scn.nextLine();
+//
+//							System.out.print("\nNome do proprietario: ");
+//							String proprietario = scn.nextLine();
+//							
+//							System.out.print("\nO projeto e Publico ou Privado? ");
+//							System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
+//							String privacidade = scn.next();
+//
+//							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
+//							System.out.println(criaProjeto);
+							uiprojeto.add();
 							int resposta;
 							do {
 								System.out.println("\n");
@@ -135,23 +137,24 @@ public class Main {
 									break;
 
 								case 1:
-									System.out.println();
-									System.out.println("----- Adicionar colaborador: -----");
-									System.out.println("\n ---- Usuarios: ----");
-									System.out.println("|COD.\t |NOME\t");
-									for (int i = 0; i < sistema.getUsuarios().size(); i++) {
-										if (sistema.getUsuarios().get(i) != null) {
-											System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
-													sistema.getUsuarios().get(i).getNmUsuario());
-										}
-									}
-                                    
-									System.out.print("\nNome do colaborador: ");
-									scn.nextLine();
-									String colaborador = scn.nextLine();
-
-									String adicionaColaborador = sistema.addColaborador(colaborador);
-									System.out.println(adicionaColaborador);
+//									System.out.println();
+//									System.out.println("----- Adicionar colaborador: -----");
+//									System.out.println("\n ---- Usuarios: ----");
+//									System.out.println("|COD.\t |NOME\t");
+//									for (int i = 0; i < sistema.getUsuarios().size(); i++) {
+//										if (sistema.getUsuarios().get(i) != null) {
+//											System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
+//													sistema.getUsuarios().get(i).getNmUsuario());
+//										}
+//									}
+//                                    
+//									System.out.print("\nNome do colaborador: ");
+//									scn.nextLine();
+//									String colaborador = scn.nextLine();
+//
+//									String adicionaColaborador = sistema.addColaborador(colaborador);
+//									System.out.println(adicionaColaborador);
+									uiprojeto.addColaborador();
 									
 									break;
 
@@ -280,51 +283,54 @@ public class Main {
 
 
 						case 3:
-							System.out.println("\n--- Lista de projetos: ---");
-							System.out.println("OBS.: apenas os projetos publicos serao mostrados.");
-							System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
-							for (int i = 0; i < sistema.projetos.size(); i++) {
-								if (sistema.projetos.get(i) != null && sistema.projetos.get(i).getPrivacidade() == "Publico") {
-									System.out.printf("%-8s %-20s %-16s%n", sistema.projetos.get(i).getCdProjeto(), 
-											sistema.projetos.get(i).getNmProjeto(), sistema.projetos.get(i).getProprietario());
-								}
-							}
+//							System.out.println("\n--- Lista de projetos: ---");
+//							System.out.println("OBS.: apenas os projetos publicos serao mostrados.");
+//							System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
+//							for (int i = 0; i < sistema.projetos.size(); i++) {
+//								if (sistema.projetos.get(i) != null && sistema.projetos.get(i).getPrivacidade() == "Publico") {
+//									System.out.printf("%-8s %-20s %-16s%n", sistema.projetos.get(i).getCdProjeto(), 
+//											sistema.projetos.get(i).getNmProjeto(), sistema.projetos.get(i).getProprietario());
+//								}
+//							}
+							uiprojeto.listar();
 							break;
 							
 						case 4:
-							System.out.println();
-							System.out.println("================================================================");
-							System.out.println("--- Procurar projeto por codigo: ---");
-							System.out.println("OBS.: o projeto so sera mostrado se for publico.");
-							System.out.print("\nInsira o codigo da venda que voce esta procurando: ");
-							int codProjeto = scn.nextInt();
-
-							Projeto projetoCod = sistema.projetoPorCod(codProjeto);
-
-							System.out.println("\n--- Projeto do codigo " + codProjeto + " : ---");
-							System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
-
-							if (projetoCod != null) {
-								System.out.printf("%-8s %-20s %-16s%n", codProjeto, projetoCod.getNmProjeto(),
-										projetoCod.getProprietario());
-
-							} else {
-								System.out.println("Codigo nao encontrado ou projeto Privado.");
-							}
+//							System.out.println();
+//							System.out.println("================================================================");
+//							System.out.println("--- Procurar projeto por codigo: ---");
+//							System.out.println("OBS.: o projeto so sera mostrado se for publico.");
+//							System.out.print("\nInsira o codigo da venda que voce esta procurando: ");
+//							int codProjeto = scn.nextInt();
+//
+//							Projeto projetoCod = sistema.projetoPorCod(codProjeto);
+//
+//							System.out.println("\n--- Projeto do codigo " + codProjeto + " : ---");
+//							System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
+//
+//							if (projetoCod != null) {
+//								System.out.printf("%-8s %-20s %-16s%n", codProjeto, projetoCod.getNmProjeto(),
+//										projetoCod.getProprietario());
+//
+//							} else {
+//								System.out.println("Codigo nao encontrado ou projeto Privado.");
+//							}
+							uiprojeto.projetoPorCodigo();
 							break;
 							
 						case 5:
-							System.out.println("===============================================================");
-							System.out.println("\nAVISO: Apenas o proprietario do projeto pode excui-lo.");
-							System.out.print("\nCodigo do projeto: ");
-							int codigoProjeto = scn.nextInt();
-							System.out.print("\nNome do proprietario: ");
-							String nomeProprietario = scn.next();
-							System.out.print("\nSenha do proprietario: ");
-							String senhaProprietario = scn.next();
-
-							String excluiProjeto = sistema.excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
-							System.out.println(excluiProjeto);
+//							System.out.println("===============================================================");
+//							System.out.println("\nAVISO: Apenas o proprietario do projeto pode excui-lo.");
+//							System.out.print("\nCodigo do projeto: ");
+//							int codigoProjeto = scn.nextInt();
+//							System.out.print("\nNome do proprietario: ");
+//							String nomeProprietario = scn.next();
+//							System.out.print("\nSenha do proprietario: ");
+//							String senhaProprietario = scn.next();
+//
+//							String excluiProjeto = sistema.excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
+//							System.out.println(excluiProjeto);
+							uiprojeto.excluir();
 							break;
 						}
 

@@ -24,7 +24,7 @@ public class RepositorioUsuario {
 		if (pAlterado == null)
 			return false;
 		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getCodigo() == pAlterado.getCodigo()) {
+			if (usuarios.get(i).getCdUsuario() == pAlterado.getCdUsuario()) {
 				usuarios.set(i, pAlterado);
 				return true;
 			}

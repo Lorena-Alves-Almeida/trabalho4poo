@@ -3,6 +3,10 @@ package trabalho4poo.negocio;
 import java.util.ArrayList;
 import java.util.List;
 
+import trabalho4poo.ui.*;
+import trabalho4poo.negocio.*;
+import trabalho4poo.dados.*;
+
 public class Projeto {
 	private int cdProjeto;
 	private String nmProjeto;
@@ -11,19 +15,17 @@ public class Projeto {
 	private String privacidade;
 	private String projetoCodigo;
 	public static int quantProjetos = 0;
-	
-	
+
 	public Projeto() {
 		System.out.println("Criou um objeto Projeto()");
 	}
-	
+
 	public Projeto(Projeto outro) {
 		this.cdProjeto = outro.cdProjeto;
 		this.nmProjeto = outro.nmProjeto;
 		this.proprietario = outro.proprietario;
 		this.colaboradores = outro.colaboradores;
 	}
-
 
 	public int getCdProjeto() {
 		return cdProjeto;
@@ -39,7 +41,7 @@ public class Projeto {
 
 	public void setNmProjeto(String nmProjeto) {
 		if (nmProjeto != null)
-		this.nmProjeto = nmProjeto;
+			this.nmProjeto = nmProjeto;
 	}
 
 	public Usuario getProprietario() {
@@ -48,7 +50,7 @@ public class Projeto {
 
 	public void setProprietario(Usuario proprietario) {
 		if (proprietario != null)
-		this.proprietario = proprietario;
+			this.proprietario = proprietario;
 	}
 
 	public String getPrivacidade() {
@@ -57,29 +59,36 @@ public class Projeto {
 
 	public void setPrivacidade(String privacidade) {
 		if (privacidade != null)
-		this.privacidade = privacidade;
+			this.privacidade = privacidade;
 	}
-	
+
 	public List<Usuario> getColaboradores() {
 		return colaboradores;
 	}
 
 	public void setColaboradores(List<Usuario> colaboradores) {
 		if (colaboradores != null)
-		this.colaboradores = colaboradores;
+			this.colaboradores = colaboradores;
 	}
-	
+
 	public String getProjetoCodigo() {
 		return projetoCodigo;
 	}
-	
+
 	public void setProjetoCodigo(String projetoCodigo) {
 		if (projetoCodigo != null)
-		this.projetoCodigo = projetoCodigo;
+			this.projetoCodigo = projetoCodigo;
 	}
 
+	public static Projeto getInstance(String nmProjeto, Usuario proprietario, String privacidade,
+			List<Usuario> colaboradores, String projetoCodigo) {
+		if (nmProjeto != null && proprietario != null && privacidade != null)
+			return new Projeto(nmProjeto, proprietario, privacidade, colaboradores, projetoCodigo);
+		return null;
+	}
 
-	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores, String projetoCodigo) {
+	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores,
+			String projetoCodigo) {
 		quantProjetos++;
 		this.cdProjeto = quantProjetos;
 		this.nmProjeto = nmProjeto;
@@ -88,7 +97,5 @@ public class Projeto {
 		this.colaboradores = colaboradores;
 		this.projetoCodigo = projetoCodigo;
 	}
-
-
 
 }
