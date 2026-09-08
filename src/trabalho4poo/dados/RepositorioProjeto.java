@@ -101,79 +101,7 @@ public class RepositorioProjeto {
 		}
 		return "Projeto excluido.";
 	}
-	
-	// alterar
-	public boolean alterar(Produto pAlterado) {
-		if (pAlterado == null)
-			return false;
-		for (int i = 0; i < produtos.size(); i++) {
-			if (produtos.get(i).getCodigo() == pAlterado.getCodigo()) {
-				produtos.set(i, pAlterado);
-				return true;
-			}
-		}
-		return false;
-	}
 
-	// excluir
-	public boolean excluir(int codigo) {
-		Produto p = buscarPorCodigo(codigo);
-		if (p == null)
-			return false;
-
-		// codigo vai para Sistema no futuro
-		if (Sistema.getInstance().produtoTemVendas(codigo))
-			p.setExcluido(true);
-		else
-			produtos.remove(p);
-		return true;
-	}
-
-	// Listagens
-	return listaCopia;
-
-	}
-
-	public List<Produto> listarPorMarca(int codigoMarca) {
-		List<Produto> resultado = new ArrayList<>();
-		for (Produto p : produtos)
-			if (!p.isExcluido() && p.getMarca() != null && p.getMarca().getCodigo() == codigoMarca)
-				resultado.add(p);
-		return resultado;
-	}
-
-	public List<Produto> listarOrdenadoPorNome() {
-		List<Produto> ordenados = new ArrayList<>();
-		for (Produto p : produtos)
-			if (!p.isExcluido())
-				ordenados.add(p);
-		ordenados.sort((a, b) -> a.getNome().compareToIgnoreCase(b.getNome()));
-		return ordenados;
-	}
-
-	// buscar
-	public boolean marcaTemProdutos(int codigoMarca) {
-		for (Produto p : produtos)
-			if (p.getMarca() != null && p.getMarca().getCodigo() == codigoMarca)
-				return true;
-		return false;
-	}
-
-	public Produto buscarPorCodigo(int codigo) {
-		for (Produto p : produtos) {
-			if (!p.isExcluido() && p.getCodigo() == codigo)
-				return new Produto(p);
-		}
-		return null;
-	}
-
-	public Produto buscarPorNome(String nome) {
-		for (Produto p : produtos) {
-			if (!p.isExcluido() && p.getNome().equals(nome))
-				return new Produto(p);
-		}
-		return null;
-	}
 
 	public boolean existeNome(String nome) {
 		for (Produto p : produtos)
