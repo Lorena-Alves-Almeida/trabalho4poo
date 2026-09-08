@@ -96,9 +96,8 @@ public class Main {
 							System.out.println("|COD.\t |NOME\t");
 							for (int i = 0; i < sistema.getUsuarios().size(); i++) {
 								if (sistema.getUsuarios().get(i) != null) {
-//ESSES ERROS EM USUARIO É SÓ TROCAR POR getUsuarios()
-									System.out.printf("%-8s %-20s%n", sistema.usuarios.get(i).getCdUsuario(),
-											sistema.usuarios.get(i).getNmUsuario());
+									System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
+											sistema.getUsuarios().get(i).getNmUsuario());
 								}
 							}
 							break;
@@ -140,10 +139,10 @@ public class Main {
 									System.out.println("----- Adicionar colaborador: -----");
 									System.out.println("\n ---- Usuarios: ----");
 									System.out.println("|COD.\t |NOME\t");
-									for (int i = 0; i < sistema.usuarios.size(); i++) {
-										if (sistema.usuarios.get(i) != null) {
-											System.out.printf("%-8s %-20s%n", sistema.usuarios.get(i).getCdUsuario(),
-													sistema.usuarios.get(i).getNmUsuario());
+									for (int i = 0; i < sistema.getUsuarios().size(); i++) {
+										if (sistema.getUsuarios().get(i) != null) {
+											System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
+													sistema.getUsuarios().get(i).getNmUsuario());
 										}
 									}
                                     
@@ -310,19 +309,18 @@ public class Main {
 										projetoCod.getProprietario());
 
 							} else {
-								System.out.println("Codigo nao encontrado.");
+								System.out.println("Codigo nao encontrado ou projeto Privado.");
 							}
-
 							break;
 							
 						case 5:
-							
+							System.out.println("===============================================================");
 							System.out.println("\nAVISO: Apenas o proprietario do projeto pode excui-lo.");
 							System.out.print("\nCodigo do projeto: ");
 							int codigoProjeto = scn.nextInt();
 							System.out.print("\nNome do proprietario: ");
 							String nomeProprietario = scn.next();
-							System.out.print("\nSenha: ");
+							System.out.print("\nSenha do proprietario: ");
 							String senhaProprietario = scn.next();
 
 							String excluiProjeto = sistema.excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
