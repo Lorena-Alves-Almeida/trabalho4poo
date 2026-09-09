@@ -536,10 +536,7 @@ public class Main {
 		System.out.println("\n================================================================");
 		System.out.println("----- CADASTRO: ----");
 		
-		
-		System.out.print("Nome: ");
-		String nome = scn.next();
-		System.out.print("Nome de usuário (login): ");
+		System.out.print("Nome de usuário: ");
 		String nomeUsuario = scn.next();
 		if (sistema.existeNomeUsuario(nomeUsuario)) {
 			System.out.println("Login já cadastrado!");
