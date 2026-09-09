@@ -9,6 +9,7 @@ public class Usuario {
 	private int cdUsuario;
 	private String nmUsuario;
 	private String senha;
+    private boolean excluido;
 //	private int tipo;
 
 	public static int quantUsuarios;
@@ -18,6 +19,7 @@ public class Usuario {
 		cdUsuario++;
 		this.nmUsuario = nmUsuario;
 		this.senha = senha;
+		this.excluido = false;
 		quantUsuarios++;
 	}
 	
@@ -26,6 +28,7 @@ public class Usuario {
 		this.cdUsuario = outro.cdUsuario;
 		this.nmUsuario = outro.nmUsuario;
 		this.senha = outro.senha;
+		this.excluido = outro.excluido;
 	}
 
     // Instance de Usuário
@@ -65,5 +68,13 @@ public class Usuario {
 		if (!senha.isEmpty() && senha != null)
 			this.senha = senha;
 	}
+	
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
 
 }

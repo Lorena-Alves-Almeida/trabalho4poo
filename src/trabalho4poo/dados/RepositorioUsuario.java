@@ -33,16 +33,13 @@ public class RepositorioUsuario {
 	}
 
 	// excluir
+	//COLOCAR EM CAMADAS NÃO ESQUECER
 	public boolean excluir(int codigo) {
-		Usuario p = buscarPorCodigo(codigo);
-		if (p == null)
+		Usuario u = buscarPorCodigo(codigo);
+		if (u == null)
 			return false;
-
-		// codigo vai para Sistema no futuro
-		if (Sistema.getInstance().produtoTemVendas(codigo))
-			p.setExcluido(true);
-		else
-			usuarios.remove(p);
+		u.setExcluido(true);
+		//usuarios.remove(u);
 		return true;
 	}
 
@@ -56,33 +53,25 @@ public class RepositorioUsuario {
 		return listaCopia;
 	}
 
-	// buscar
-	public boolean marcaTemProdutos(int codigoMarca) {
-		for (Usuario p : produtos)
-			if (p.getMarca() != null && p.getMarca().getCodigo() == codigoMarca)
-				return true;
-		return false;
-	}
-
 	public Usuario buscarPorCodigo(int codigo) {
-		for (Usuario p : produtos) {
-			if (!p.isExcluido() && p.getCodigo() == codigo)
-				return new Usuario(p);
+		for (Usuario u : usuarios) {
+			if (!u.isExcluido() && u.getCdUsuario() == codigo)
+				return new Usuario(u);
 		}
 		return null;
 	}
 
 	public Usuario buscarPorNome(String nome) {
-		for (Usuario p : produtos) {
-			if (!p.isExcluido() && p.getNome().equals(nome))
-				return new Usuario(p);
+		for (Usuario u : usuarios) {
+			if (!u.isExcluido() && u.getNmUsuario().equals(nome))
+				return new Usuario(u);
 		}
 		return null;
 	}
 
 	public boolean existeNome(String nome) {
-		for (Usuario p : produtos)
-			if (p.getNome().equalsIgnoreCase(nome))
+		for (Usuario u : usuarios)
+			if (u.getNmUsuario().equalsIgnoreCase(nome))
 				return true;
 		return false;
 	}
