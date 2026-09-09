@@ -41,23 +41,8 @@ public class Main {
 					break;
 
 				case 1:
-					System.out.println("\n================================================================");
-					System.out.println("----- LOGIN: ----");
+					login();
 
-					System.out.print("\nNome do usuário: ");
-					scn.nextLine();
-					String nomeUsuario1 = scn.nextLine();
-
-					System.out.print("\nSenha: ");
-					String senha1 = scn.nextLine();
-
-					Usuario usuarioLogado = sistema.autenticarLogin(nomeUsuario1, senha1);
-					if (usuarioLogado != null) {
-						System.out.println("Perfil encontrado!");
-					} else {
-						System.out.println("Perfil nao encontrado ou inexistente");
-					}
-					menuPrincipal();
 					break;
 
 				case 2:
@@ -98,180 +83,7 @@ public class Main {
 							break;
 
 						case 2:
-//							System.out.println();
-//							System.out.println("================================================================");
-//							System.out.print("\n--- Criando um novo projeto: ---");
-//							System.out.print("\nNome do projeto: ");
-//							scn.nextLine();
-//							String nmProjeto = scn.nextLine();
-//
-//							System.out.print("\nNome do proprietario: ");
-//							String proprietario = scn.nextLine();
-//							
-//							System.out.print("\nO projeto e Publico ou Privado? ");
-//							System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
-//							String privacidade = scn.next();
-//
-//							String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
-//							System.out.println(criaProjeto);
-							uiprojeto.add();
-							int resposta;
-							do {
-								System.out.println("\n");
-								System.out.println("================================================================");
-								System.out.println("---------- Fazendo o projeto: ----------");
-								System.out.println("0-> SAIR");
-								System.out.println("1-> Adicionar colaborador.");
-								System.out.println("2-> Fazer o projeto.");
-
-								resposta = scn.nextInt();
-								switch (resposta) {
-
-								case 0:
-									break;
-
-								case 1:
-//									System.out.println();
-//									System.out.println("----- Adicionar colaborador: -----");
-//									System.out.println("\n ---- Usuarios: ----");
-//									System.out.println("|COD.\t |NOME\t");
-//									for (int i = 0; i < sistema.getUsuarios().size(); i++) {
-//										if (sistema.getUsuarios().get(i) != null) {
-//											System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
-//													sistema.getUsuarios().get(i).getNmUsuario());
-//										}
-//									}
-//                                    
-//									System.out.print("\nNome do colaborador: ");
-//									scn.nextLine();
-//									String colaborador = scn.nextLine();
-//
-//									String adicionaColaborador = sistema.addColaborador(colaborador);
-//									System.out.println(adicionaColaborador);
-									uiprojeto.addColaborador();
-									
-									break;
-
-								case 2:
-									System.out.println("=== CONFIGURADOR DE LAYOUT DINÂMICO ===");
-
-									// 1. Definição da quantidade de Colunas Principais
-									System.out.print("\nEm quantas colunas deseja dividir o container principal? ");
-									int qtdColunas = scn.nextInt();
-
-									// 2. Definição da quantidade de Divs
-									System.out.print("Quantas Divs deseja criar empilhadas na coluna de Divs? ");
-									int qtdDivs = scn.nextInt();
-
-									// 3. Definição dos Formulários e seus Inputs
-									System.out.print("Quantos Formulários deseja criar na coluna de Formulários? ");
-									int qtdForms = scn.nextInt();
-									scn.nextLine(); // Consome a quebra de linha do scanner
-
-									// 4. Posicionamento e Altura
-									System.out.println("\nQual a disposição no container principal?");
-									System.out.println("1 - Coluna de Divs na Esquerda | Formulários na Direita");
-									System.out.println("2 - Formulários na Esquerda | Coluna de Divs na Direita");
-									System.out.print("Opção: ");
-									int posicao = scn.nextInt();
-
-									System.out.print("\nQual a altura total do container (em px)? ");
-									int alturaPx = scn.nextInt();
-									scn.nextLine();
-
-									// --- CONSTRUÇÃO DA ESTRUTURA HTML ---
-
-									// Container Principal
-									Div containerPrincipal = new Div("main-container", "flex-container");
-									containerPrincipal.adicionarEstilo("display", "flex");
-									containerPrincipal.adicionarEstilo("gap", "20px");
-									containerPrincipal.adicionarEstilo("width", "100%");
-									containerPrincipal.adicionarEstilo("height", alturaPx + "px");
-
-									// Cálculo dinâmico da largura de cada coluna com base na escolha do usuário
-									int larguraPorcentagemColuna = qtdColunas > 0 ? 100 / qtdColunas : 100;
-
-									// Coluna de Divs
-									Div colunaDivs = new Div("coluna-divs", "coluna");
-									colunaDivs.adicionarEstilo("display", "flex");
-									colunaDivs.adicionarEstilo("flex-direction", "column");
-									colunaDivs.adicionarEstilo("width", larguraPorcentagemColuna + "%");
-									colunaDivs.adicionarEstilo("height", "100%");
-									colunaDivs.adicionarEstilo("gap", "10px");
-
-									// Calcula a porcentagem de altura proporcional para cada Div criada
-									int alturaPorcentagemDiv = qtdDivs > 0 ? 100 / qtdDivs : 100;
-
-									for (int i = 1; i <= qtdDivs; i++) {
-										Div divFilha = new Div("div-filha-" + i, "caixa-filha");
-										divFilha.adicionarEstilo("height", alturaPorcentagemDiv + "%");
-										divFilha.adicionarEstilo("background-color", "#e0e0e0");
-										divFilha.adicionarFilho(
-												new Paragrafo("p-" + i, "texto", "Conteúdo da Div " + i));
-										colunaDivs.adicionarFilho(divFilha);
-									}
-
-									// Coluna de Formulários
-									Div colunaForms = new Div("coluna-forms", "coluna");
-									colunaForms.adicionarEstilo("display", "flex");
-									colunaForms.adicionarEstilo("flex-direction", "column");
-									colunaForms.adicionarEstilo("width", larguraPorcentagemColuna + "%");
-									colunaForms.adicionarEstilo("height", "100%");
-									colunaForms.adicionarEstilo("gap", "15px");
-
-									for (int f = 1; f <= qtdForms; f++) {
-										System.out.println("\n--- CONFIGURAÇÃO DO FORMULÁRIO " + f + " ---");
-										System.out.print("Quantos inputs este formulário terá? ");
-										int qtdInputs = scn.nextInt();
-										scn.nextLine();
-
-										Formulario form = new Formulario("form-" + f, "formulario-estilizado",
-												"/enviar", "POST");
-										form.adicionarEstilo("display", "flex");
-										form.adicionarEstilo("flex-direction", "column");
-										form.adicionarEstilo("gap", "10px");
-										form.adicionarEstilo("background-color", "#f9f9f9");
-										form.adicionarEstilo("padding", "15px");
-
-										for (int inp = 1; inp <= qtdInputs; inp++) {
-											System.out.print("Texto do placeholder para o Input " + inp + ": ");
-											String placeholder = scn.nextLine();
-
-											Input input = new Input("input-" + f + "-" + inp, "campo", "text",
-													"campo_" + f + "_" + inp, placeholder);
-											form.adicionarFilho(input);
-										}
-										colunaForms.adicionarFilho(form);
-									}
-
-									// Montagem do Layout Principal de acordo com a opção escolhida
-									if (posicao == 1) {
-										containerPrincipal.adicionarFilho(colunaDivs);
-										containerPrincipal.adicionarFilho(colunaForms);
-									} else {
-										containerPrincipal.adicionarFilho(colunaForms);
-										containerPrincipal.adicionarFilho(colunaDivs);
-									}
-
-									// --- GERAÇÃO E ARMAZENAMENTO NA STRING ---
-
-									StringBuilder sb = new StringBuilder();
-									sb.append("<!-- HTML Gerado Dinamicamente -->\n");
-									sb.append(containerPrincipal.renderizar(0));
-
-									// Variável contendo o código final como String
-									String htmlGerado = sb.toString();
-
-									// Exemplo de uso da String criada:
-									System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
-									System.out.println(htmlGerado);
-									sistema.getProjetos().get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
-
-									break;
-
-								}
-
-							} while (resposta != 0);
+							criarProjeto();
 
 							break;
 
@@ -519,6 +331,204 @@ public class Main {
 //		// Renderização do HTML gerado
 //		System.out.println("\n=== HTML GERADO COM SUCESSO ===");
 //		System.out.println(containerPrincipal.renderizar(0));
+
+	}
+	
+	static void login() {
+		System.out.println("\n================================================================");
+		System.out.println("----- LOGIN: ----");
+
+		System.out.print("\nNome do usuário: ");
+		scn.nextLine();
+		String nomeUsuario1 = scn.nextLine();
+
+		System.out.print("\nSenha: ");
+		String senha1 = scn.nextLine();
+
+		Usuario usuarioLogado = sistema.autenticarLogin(nomeUsuario1, senha1);
+		if (usuarioLogado != null) {
+			System.out.println("Perfil encontrado!");
+		} else {
+			System.out.println("Perfil nao encontrado ou inexistente");
+		}
+		menuPrincipal();
+	}
+	
+	static void criarProjeto() {
+//		System.out.println();
+//		System.out.println("================================================================");
+//		System.out.print("\n--- Criando um novo projeto: ---");
+//		System.out.print("\nNome do projeto: ");
+//		scn.nextLine();
+//		String nmProjeto = scn.nextLine();
+//
+//		System.out.print("\nNome do proprietario: ");
+//		String proprietario = scn.nextLine();
+//		
+//		System.out.print("\nO projeto e Publico ou Privado? ");
+//		System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
+//		String privacidade = scn.next();
+//
+//		String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
+//		System.out.println(criaProjeto);
+		uiprojeto.add();
+		int resposta;
+		do {
+			System.out.println("\n");
+			System.out.println("================================================================");
+			System.out.println("---------- Fazendo o projeto: ----------");
+			System.out.println("0-> SAIR");
+			System.out.println("1-> Adicionar colaborador.");
+			System.out.println("2-> Fazer o projeto.");
+
+			resposta = scn.nextInt();
+			switch (resposta) {
+
+			case 0:
+				break;
+
+			case 1:
+//				System.out.println();
+//				System.out.println("----- Adicionar colaborador: -----");
+//				System.out.println("\n ---- Usuarios: ----");
+//				System.out.println("|COD.\t |NOME\t");
+//				for (int i = 0; i < sistema.getUsuarios().size(); i++) {
+//					if (sistema.getUsuarios().get(i) != null) {
+//						System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
+//								sistema.getUsuarios().get(i).getNmUsuario());
+//					}
+//				}
+//                
+//				System.out.print("\nNome do colaborador: ");
+//				scn.nextLine();
+//				String colaborador = scn.nextLine();
+//
+//				String adicionaColaborador = sistema.addColaborador(colaborador);
+//				System.out.println(adicionaColaborador);
+				uiprojeto.addColaborador();
+				
+				break;
+
+			case 2:
+				System.out.println("=== CONFIGURADOR DE LAYOUT DINÂMICO ===");
+
+				// 1. Definição da quantidade de Colunas Principais
+				System.out.print("\nEm quantas colunas deseja dividir o container principal? ");
+				int qtdColunas = scn.nextInt();
+
+				// 2. Definição da quantidade de Divs
+				System.out.print("Quantas Divs deseja criar empilhadas na coluna de Divs? ");
+				int qtdDivs = scn.nextInt();
+
+				// 3. Definição dos Formulários e seus Inputs
+				System.out.print("Quantos Formulários deseja criar na coluna de Formulários? ");
+				int qtdForms = scn.nextInt();
+				scn.nextLine(); // Consome a quebra de linha do scanner
+
+				// 4. Posicionamento e Altura
+				System.out.println("\nQual a disposição no container principal?");
+				System.out.println("1 - Coluna de Divs na Esquerda | Formulários na Direita");
+				System.out.println("2 - Formulários na Esquerda | Coluna de Divs na Direita");
+				System.out.print("Opção: ");
+				int posicao = scn.nextInt();
+
+				System.out.print("\nQual a altura total do container (em px)? ");
+				int alturaPx = scn.nextInt();
+				scn.nextLine();
+
+				// --- CONSTRUÇÃO DA ESTRUTURA HTML ---
+
+				// Container Principal
+				Div containerPrincipal = new Div("main-container", "flex-container");
+				containerPrincipal.adicionarEstilo("display", "flex");
+				containerPrincipal.adicionarEstilo("gap", "20px");
+				containerPrincipal.adicionarEstilo("width", "100%");
+				containerPrincipal.adicionarEstilo("height", alturaPx + "px");
+
+				// Cálculo dinâmico da largura de cada coluna com base na escolha do usuário
+				int larguraPorcentagemColuna = qtdColunas > 0 ? 100 / qtdColunas : 100;
+
+				// Coluna de Divs
+				Div colunaDivs = new Div("coluna-divs", "coluna");
+				colunaDivs.adicionarEstilo("display", "flex");
+				colunaDivs.adicionarEstilo("flex-direction", "column");
+				colunaDivs.adicionarEstilo("width", larguraPorcentagemColuna + "%");
+				colunaDivs.adicionarEstilo("height", "100%");
+				colunaDivs.adicionarEstilo("gap", "10px");
+
+				// Calcula a porcentagem de altura proporcional para cada Div criada
+				int alturaPorcentagemDiv = qtdDivs > 0 ? 100 / qtdDivs : 100;
+
+				for (int i = 1; i <= qtdDivs; i++) {
+					Div divFilha = new Div("div-filha-" + i, "caixa-filha");
+					divFilha.adicionarEstilo("height", alturaPorcentagemDiv + "%");
+					divFilha.adicionarEstilo("background-color", "#e0e0e0");
+					divFilha.adicionarFilho(
+							new Paragrafo("p-" + i, "texto", "Conteúdo da Div " + i));
+					colunaDivs.adicionarFilho(divFilha);
+				}
+
+				// Coluna de Formulários
+				Div colunaForms = new Div("coluna-forms", "coluna");
+				colunaForms.adicionarEstilo("display", "flex");
+				colunaForms.adicionarEstilo("flex-direction", "column");
+				colunaForms.adicionarEstilo("width", larguraPorcentagemColuna + "%");
+				colunaForms.adicionarEstilo("height", "100%");
+				colunaForms.adicionarEstilo("gap", "15px");
+
+				for (int f = 1; f <= qtdForms; f++) {
+					System.out.println("\n--- CONFIGURAÇÃO DO FORMULÁRIO " + f + " ---");
+					System.out.print("Quantos inputs este formulário terá? ");
+					int qtdInputs = scn.nextInt();
+					scn.nextLine();
+
+					Formulario form = new Formulario("form-" + f, "formulario-estilizado",
+							"/enviar", "POST");
+					form.adicionarEstilo("display", "flex");
+					form.adicionarEstilo("flex-direction", "column");
+					form.adicionarEstilo("gap", "10px");
+					form.adicionarEstilo("background-color", "#f9f9f9");
+					form.adicionarEstilo("padding", "15px");
+
+					for (int inp = 1; inp <= qtdInputs; inp++) {
+						System.out.print("Texto do placeholder para o Input " + inp + ": ");
+						String placeholder = scn.nextLine();
+
+						Input input = new Input("input-" + f + "-" + inp, "campo", "text",
+								"campo_" + f + "_" + inp, placeholder);
+						form.adicionarFilho(input);
+					}
+					colunaForms.adicionarFilho(form);
+				}
+
+				// Montagem do Layout Principal de acordo com a opção escolhida
+				if (posicao == 1) {
+					containerPrincipal.adicionarFilho(colunaDivs);
+					containerPrincipal.adicionarFilho(colunaForms);
+				} else {
+					containerPrincipal.adicionarFilho(colunaForms);
+					containerPrincipal.adicionarFilho(colunaDivs);
+				}
+
+				// --- GERAÇÃO E ARMAZENAMENTO NA STRING ---
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("<!-- HTML Gerado Dinamicamente -->\n");
+				sb.append(containerPrincipal.renderizar(0));
+
+				// Variável contendo o código final como String
+				String htmlGerado = sb.toString();
+
+				// Exemplo de uso da String criada:
+				System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
+				System.out.println(htmlGerado);
+				sistema.getProjetos().get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
+
+				break;
+
+			}
+
+		} while (resposta != 0);
 
 	}
 	
