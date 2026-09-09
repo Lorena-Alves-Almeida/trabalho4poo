@@ -93,7 +93,7 @@ public class Main {
 							break;
 
 						case 1:
-							listarUsuarios();
+							uiusuario.listar(sistema.getUsuarios());
 							
 							break;
 
@@ -265,7 +265,7 @@ public class Main {
 									// Exemplo de uso da String criada:
 									System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
 									System.out.println(htmlGerado);
-									sistema.projetos.get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
+									sistema.getProjetos().get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
 
 									break;
 
@@ -286,7 +286,7 @@ public class Main {
 //											sistema.projetos.get(i).getNmProjeto(), sistema.projetos.get(i).getProprietario());
 //								}
 //							}
-							uiprojeto.listar();
+							uiprojeto.listar(sistema.getProjetos());
 							break;
 							
 						case 4:
@@ -550,7 +550,9 @@ public class Main {
 		
 	}
 	
-	static void listarUsuarios() {
+	
+	
+	static void listarProjetos() {
 		System.out.println("\n--- Lista de usuarios cadastrados: ---");
 		System.out.println("|COD.\t |NOME\t");
 		for (int i = 0; i < sistema.getUsuarios().size(); i++) {
