@@ -159,10 +159,6 @@ public class Sistema {
 			return false;
 		return usuarios.remove(u);
 	}
-
-	public List<Usuario> listarUsuarios() {
-		return usuarios;
-	}
 	
 	public Usuario autenticarLogin(String nmUsuario, String senha) {
 		for (int i = 0; i < usuarios.size(); i++) {
@@ -171,15 +167,25 @@ public class Sistema {
 		}return null;
 	}
 	
-	public static List<Usuario> getUsuarios() {
+	public List<Usuario> getUsuarios() {
 		List<Usuario> copia = new ArrayList<Usuario>();
 		for (int i = 0; i < usuarios.size(); i++) {
 
 			if (usuarios.get(i) != null)
-				copia.set(Usuario(usuarios.get(i))); //olhar no google como chamar o construtor para um arraylist
+				copia.add(new Usuario(usuarios.get(i)));
 		}
 
 		return copia;
 	}
 
+	public List<Projeto> getProjetos() {
+		List<Projeto> copia = new ArrayList<Projeto>();
+		for (int i = 0; i < usuarios.size(); i++) {
+
+			if (projetos.get(i) != null)
+				copia.add(new Projeto(projetos.get(i)));
+		}
+
+		return copia;
+	}
 }
