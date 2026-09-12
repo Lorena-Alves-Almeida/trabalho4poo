@@ -10,27 +10,34 @@ import java.util.List;
 
 public class UIProjeto {
 
-	static Scanner scn;
+	private static Scanner scn;
 
 	public UIProjeto() {
 		scn = new Scanner(System.in);
 	}
 
-	public void add() {
+	
+	public void criarProjeto() {
 		System.out.println("================================================================");
 		System.out.print("\n--- Criando um novo projeto: ---");
 		System.out.print("\nNome do projeto: ");
 		scn.nextLine();
 		String nmProjeto = scn.nextLine();
-
-		System.out.print("\nNome do proprietario: ");
-		String proprietario = scn.nextLine();
-
-		System.out.print("\nO projeto e Publico ou Privado? ");
+		
+		String proprietario;
+		do {
+			System.out.print("\nNome do proprietario: ");
+			proprietario = scn.nextLine();
+			
+		}while(!Sistema.getInstance().existeNomeUsuario(proprietario));
+		
+		System.out.print("\nO projeto é Publico ou Privado? ");
 		System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
 		String privacidade = scn.next();
 
-		String criaProjeto = Projeto.getInstance(nmProjeto, proprietario, privacidade, null, null);
+		Usuario usuarioProprietario = Sistema.getInstance().buscarUsuarioPorLogin(proprietario);
+		
+		String criaProjeto = Projeto.getInstance(nmProjeto, usuarioProprietario, privacidade);
 		System.out.println(criaProjeto);
 	}
 

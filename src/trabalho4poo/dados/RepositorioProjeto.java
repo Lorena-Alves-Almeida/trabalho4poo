@@ -35,7 +35,7 @@ public class RepositorioProjeto {
 			return false;
 		}
 
-		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade, null, null));
+		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade));
 
 		return true;
 	}
