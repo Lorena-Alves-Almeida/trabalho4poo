@@ -15,9 +15,16 @@ public class Projeto {
 	private String privacidade;
 	private String projetoCodigo;
 	public static int quantProjetos = 0;
-
-	public Projeto() {
-		System.out.println("Criou um objeto Projeto()");
+	
+	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores,
+			String projetoCodigo) {
+		quantProjetos++;
+		this.cdProjeto = quantProjetos;
+		this.nmProjeto = nmProjeto;
+		this.proprietario = proprietario;
+		this.privacidade = privacidade;
+		this.colaboradores = colaboradores;
+		this.projetoCodigo = projetoCodigo;
 	}
 
 	public Projeto(Projeto outro) {
@@ -85,17 +92,6 @@ public class Projeto {
 		if (nmProjeto != null && proprietario != null && privacidade != null)
 			return new Projeto(nmProjeto, proprietario, privacidade, colaboradores, projetoCodigo);
 		return null;
-	}
-
-	public Projeto(String nmProjeto, Usuario proprietario, String privacidade, List<Usuario> colaboradores,
-			String projetoCodigo) {
-		quantProjetos++;
-		this.cdProjeto = quantProjetos;
-		this.nmProjeto = nmProjeto;
-		this.proprietario = proprietario;
-		this.privacidade = privacidade;
-		this.colaboradores = colaboradores;
-		this.projetoCodigo = projetoCodigo;
 	}
 
 }

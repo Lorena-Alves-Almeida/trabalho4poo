@@ -25,9 +25,9 @@ public class RepositorioProjeto {
 		}
 
 		for (int i = 0; i < Usuario.quantUsuarios; i++) {
-			if (proprietario.equals(usuarios.get(i).getNmUsuario()) && privacidade.equals("Publico")
+			if (proprietario.equals(Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) && privacidade.equals("Publico")
 					|| privacidade.equals("Privado")) {
-				proprietarioCadastro = usuarios.get(i);
+				proprietarioCadastro = Sistema.getInstance().getUsuarios().get(i);
 			}
 		}
 
@@ -43,9 +43,9 @@ public class RepositorioProjeto {
 	public String addColaborador(String colaborador) {
 
 		Usuario colaboradorCadastro = null;
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (colaborador == usuarios.get(i).getNmUsuario()) {
-				colaboradorCadastro = usuarios.get(i);
+		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
+			if (colaborador == Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) {
+				colaboradorCadastro = Sistema.getInstance().getUsuarios().get(i);
 			}
 		}
 
@@ -68,7 +68,8 @@ public class RepositorioProjeto {
 					listaCopia.add(new Projeto(p));
 				}
 			}
-
+		
+		return listaCopia;
 	}
 
 	public Projeto projetoPorCod(int codProjeto) {
@@ -84,9 +85,10 @@ public class RepositorioProjeto {
 	public String excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
 
 		Usuario usuarioProjetoExcluido = null;
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (senhaProprietario == usuarios.get(i).getSenha() && nomeProprietario == usuarios.get(i).getNmUsuario()) {
-				usuarioProjetoExcluido = usuarios.get(i);
+		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
+			if (senhaProprietario == Sistema.getInstance().getUsuarios().get(i).getSenha() 
+					&& nomeProprietario == Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) {
+				usuarioProjetoExcluido = Sistema.getInstance().getUsuarios().get(i);
 			} else {
 				return "Senha ou nome de usuario invalido!";
 			}
@@ -104,9 +106,10 @@ public class RepositorioProjeto {
 
 
 	public boolean existeNome(String nome) {
-		for (Produto p : produtos)
-			if (p.getNome().equalsIgnoreCase(nome))
+		for (int i = 0; i < Sistema.getInstance().getProjetos().size(); i++) {
+			if (Sistema.getInstance().getProjetos().get(i).getNmProjeto().equalsIgnoreCase(nome))
 				return true;
+		}
 		return false;
 	}
 

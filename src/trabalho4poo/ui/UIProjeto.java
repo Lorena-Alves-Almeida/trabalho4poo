@@ -74,7 +74,7 @@ public class UIProjeto {
 		System.out.print("\nInsira o codigo da venda que voce esta procurando: ");
 		int codProjeto = scn.nextInt();
 
-		Projeto projetoCod = sistema.projetoPorCod(codProjeto);
+		Projeto projetoCod = Sistema.getInstance().projetoPorCod(codProjeto);
 
 		System.out.println("\n--- Projeto do codigo " + codProjeto + " : ---");
 		System.out.println("|COD.\t |NOME\t      |PROPRIETARIO(A)\t      ");
