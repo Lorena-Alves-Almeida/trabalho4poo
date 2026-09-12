@@ -273,7 +273,7 @@ public class Main {
 //
 //		String criaProjeto = sistema.criarProjeto(nmProjeto, proprietario, privacidade);
 //		System.out.println(criaProjeto);
-		uiprojeto.criarProjeto();
+		uiprojeto.add();
 		int resposta;
 		do {
 			System.out.println("\n");

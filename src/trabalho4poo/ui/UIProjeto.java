@@ -17,7 +17,7 @@ public class UIProjeto {
 	}
 
 	
-	public void criarProjeto() {
+	public void add() {
 		System.out.println("================================================================");
 		System.out.print("\n--- Criando um novo projeto: ---");
 		System.out.print("\nNome do projeto: ");
