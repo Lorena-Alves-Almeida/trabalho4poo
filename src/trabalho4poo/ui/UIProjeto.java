@@ -47,10 +47,10 @@ public class UIProjeto {
 		System.out.println("\n ---- Usuarios: ----");
 		System.out.println("|COD.\t |NOME\t");
 
-		for (int i = 0; i < Sistema.getUsuarios().size(); i++) {
-			if (sistema.getUsuarios().get(i) != null) {
-				System.out.printf("%-8s %-20s%n", sistema.getUsuarios().get(i).getCdUsuario(),
-						sistema.getUsuarios().get(i).getNmUsuario());
+		for (int i = 0; i < Sistema.getInstance(getUsuarios().size()); i++) {
+			if (Sistema.getInstance(getUsuarios().get(i)) != null) {
+				System.out.printf("%-8s %-20s%n", Sistema.getUsuarios().get(i).getCdUsuario(),
+						Sistema.getUsuarios().get(i).getNmUsuario());
 			}
 		}
 
@@ -61,6 +61,8 @@ public class UIProjeto {
 		String adicionaColaborador = sistema.addColaborador(colaborador);
 		System.out.println(adicionaColaborador);
 	}
+
+
 
 	public void listar(List <Projeto> listaCopia) {
 		System.out.println("\n--- Lista de produtos: ---");
