@@ -121,9 +121,6 @@ public class Sistema {
 	public List<Usuario> listarUsuarios(){
 		return cUsuario.listar();
 	}
-<<<<<<< Updated upstream
-
-=======
 	
 	public boolean alterarUsuario(Usuario uAlterado) {
 		return cUsuario.alterar(uAlterado);
@@ -132,5 +129,5 @@ public class Sistema {
 	public Usuario getUsuarioLogado() {
 		return this.usuarioLogado;
 	}
->>>>>>> Stashed changes
+
 }
