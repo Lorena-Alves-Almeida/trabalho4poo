@@ -20,12 +20,12 @@ public class RepositorioUsuario {
 	}
 
 	// alterar
-	public boolean alterar(Usuario pAlterado) {
-		if (pAlterado == null)
+	public boolean alterar(Usuario uAlterado) {
+		if (uAlterado == null)
 			return false;
 		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getCdUsuario() == pAlterado.getCdUsuario()) {
-				usuarios.set(i, pAlterado);
+			if (usuarios.get(i).getCdUsuario() == uAlterado.getCdUsuario()) {
+				usuarios.set(i, uAlterado);
 				return true;
 			}
 		}

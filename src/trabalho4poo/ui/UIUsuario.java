@@ -2,13 +2,14 @@ package trabalho4poo.ui;
 
 import trabalho4poo.ui.*;
 
+
 import java.util.List;
 import java.util.Scanner;
-
 import trabalho4poo.negocio.*;
 public class UIUsuario {
 	
 	static Scanner scn = new Scanner(System.in);
+	static Scanner scl = new Scanner(System.in);
 	
 	public void listar(List <Usuario> listaCopia) {
 		System.out.println("\n--- Lista de usuarios cadastrados: ---");
@@ -38,5 +39,17 @@ public class UIUsuario {
 		} else {
 			System.out.println("Perfil nao encontrado ou inexistente");
 		}
+	}
+	
+	public void alterar() {
+		System.out.print("Novo Nome Login [" + usuario.getNmUsuario() + "]: ");
+		String nomeUsuario = scl.next();
+		System.out.print("Nova senha: ");
+		String senha = scl.next();
+		
+		if (Sistema.getInstance().atualizarUsuario(nomeUsuario, senha))
+			System.out.println("Usuário alterado com sucesso!");
+		else
+			System.out.println("Falha em alterar usuário.");
 	}
 }

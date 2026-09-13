@@ -16,13 +16,14 @@ public class Sistema {
 	private List<Usuario> usuarios;
 	private List<Projeto> projetos;
 
-
+	private ControladorUsuario cUsuario;
 	private ControladorProjeto cProjeto;
 //	private ControladorMarca cMarca;
 //	private ControladorVenda cVenda;
 
 	// Construtor de Sitema
 	private Sistema() {
+		cUsuario = new ControladorUsuario();
 		cProjeto = new ControladorProjeto();
 		projetos = new ArrayList<>();
 		usuarios = new ArrayList<>();
@@ -117,23 +118,15 @@ public class Sistema {
 //	}
 	
 	public boolean addUsuario(Usuario u) {
-		if (u == null)
-			return false;
-		return usuarios.add(u);
+		return cUsuario.add(u);
 	}
 
 	public Usuario buscarUsuarioPorId(int id) {
-		for (Usuario u : usuarios)
-			if (u.getCdUsuario() == id)
-				return u;
-		return null;
+		return cUsuario.buscarPorCodigo(id);
 	}
 
 	public Usuario buscarUsuarioPorLogin(String nomeUsuario) {
-		for (Usuario u : usuarios)
-			if (u.getNmUsuario().equalsIgnoreCase(nomeUsuario))
-				return u;
-		return null;
+		return cUsuario.buscarPorNome(nomeUsuario);
 	}
 
 	public boolean existeNomeUsuario(String nomeUsuario) {
@@ -188,4 +181,10 @@ public class Sistema {
 
 		return copia;
 	}
+	
+	public List<Usuario> listarUsuarios(){
+		return cUsuario.listar();
+	}
+	
+	public 
 }

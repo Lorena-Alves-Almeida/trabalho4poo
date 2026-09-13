@@ -21,13 +21,19 @@ public class ControladorUsuario {
 	}
 
 	//procurar o projeto por codigo
-	public Usuario projetoPorCod(int codigo) {
+	public Usuario buscarPorCodigo(int codigo) {
 		return repoUsuario.buscarPorCodigo(codigo);
+	}
+	
+	public Usuario buscarPorNome(String nm) {
+		return repoUsuario.buscarPorNome(nm);
 	}
 
 	// listar
 	public List<Usuario> listar() {
 		return repoUsuario.listar();
 	}
+	
+	//public 
 
 }
