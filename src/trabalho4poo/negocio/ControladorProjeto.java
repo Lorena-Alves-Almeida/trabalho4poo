@@ -22,8 +22,8 @@ public class ControladorProjeto {
 	}
 
 	//procurar o projeto por codigo
-	public Projeto projetoPorCod(int codigo) {
-		return repoProjeto.projetoPorCod(codigo);
+	public Projeto buscar(int codigo) {
+		return repoProjeto.buscar(codigo);
 	}
 
 	// listar

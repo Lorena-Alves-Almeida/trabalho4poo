@@ -71,16 +71,18 @@ public class RepositorioProjeto {
 		
 		return listaCopia;
 	}
+	
+	public Projeto buscar(int codigo) {
 
-	public Projeto projetoPorCod(int codProjeto) {
-
-		for (int i = 0; i < projetos.size(); i++) {
-			if (codProjeto == projetos.get(i).getCdProjeto() && projetos.get(i).getPrivacidade() == "Publico") {
-				return projetos.get(i);
+		for (Projeto p: projetos) {
+			if (codigo == p.getCdProjeto() && p.getPrivacidade() == "Publico") {
+				return new Projeto(p);
+				
 			}
 		}
 		return null;
 	}
+
 	
 	public String excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
 

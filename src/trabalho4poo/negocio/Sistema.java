@@ -182,9 +182,12 @@ public class Sistema {
 		return copia;
 	}
 	
+	public Projeto buscarProjetoPorCodigo(int codigo) {
+		return cProjeto.buscar(codigo);
+	}
+	
 	public List<Usuario> listarUsuarios(){
 		return cUsuario.listar();
 	}
-	
-	public 
+
 }
