@@ -25,15 +25,8 @@ public class Main {
 
 			int escolha = 0;
 			do {
-				System.out.println("\n================================================================");
-				System.out.println("======== BEM VINDO AO SISTEMA! ========");
-				System.out.println("\n===== ENTRAR: =====");
-				System.out.println();
-				System.out.println("0-> SAIR.");
-				System.out.println("1-> Login.");
-				System.out.println("2-> Cadastrar.");
 
-				logar = scn.nextInt();
+				logar = menuEntrar();
 
 				switch (logar) {
 				case 0:
@@ -43,7 +36,6 @@ public class Main {
 
 				case 1:
 					uiusuario.login();
-
 					break;
 
 				case 2:
@@ -544,6 +536,17 @@ public class Main {
 			}
 
 		} while (operacao != 0);
+	}
+	
+	static int menuEntrar() {
+		System.out.println("\n================================================================");
+		System.out.println("======== BEM VINDO AO SISTEMA! ========");
+		System.out.println("\n===== ENTRAR: =====");
+		System.out.println();
+		System.out.println("0-> SAIR.");
+		System.out.println("1-> Login.");
+		System.out.println("2-> Cadastrar.");
+		return scn.nextInt();
 	}
 	
 	static void listarProjetos() {
