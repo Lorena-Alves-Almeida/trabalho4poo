@@ -13,12 +13,8 @@ public class ControladorProjeto {
 		repoProjeto = new RepositorioProjeto();
 	}
 
-	public boolean add(Projeto p) {
-		if (p != null && !repoProjeto.existeNome(p.getNmProjeto())) {
-			return repoProjeto.add(p);
-		} else {
-			return false;
-		}
+	public boolean add(String nmProjeto, Usuario proprietario, String privacidade) {
+		return repoProjeto.add(nmProjeto, proprietario, privacidade);
 	}
 
 	//procurar o projeto por codigo
