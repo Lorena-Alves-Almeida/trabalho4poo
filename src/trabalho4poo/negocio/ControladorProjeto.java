@@ -31,12 +31,12 @@ public class ControladorProjeto {
 		return repoProjeto.listar();
 	}
 	
-	public boolean excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
-		return repoProjeto.excluir(codigoProjeto, nomeProprietario, senhaProprietario);
+	public boolean excluir(int codigoProjeto, Usuario usuarioProprietario) {
+		return repoProjeto.excluir(codigoProjeto, usuarioProprietario);
 	}
 
-	public boolean addColaborador(String colaborador) {
-		return repoProjeto.addColaborador(colaborador);
+	public boolean addColaborador(Usuario usuarioColaborador) {
+		return repoProjeto.addColaborador(usuarioColaborador);
 	}
 
 }

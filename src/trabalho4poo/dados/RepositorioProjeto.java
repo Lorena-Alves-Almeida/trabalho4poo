@@ -30,23 +30,15 @@ public class RepositorioProjeto {
 		return true;
 	}
 
-	public boolean addColaborador(String colaborador) {
+	public boolean addColaborador(Usuario usuarioColaborador) {
 
-		Usuario colaboradorCadastro = null;
-		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
-			if (colaborador == Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) {
-				colaboradorCadastro = Sistema.getInstance().getUsuarios().get(i);
-			}
-		}
-
-		if (colaboradorCadastro.equals(projetos.get(Projeto.quantProjetos).getProprietario())) {
-			colaboradorCadastro = null;
+		if (usuarioColaborador.equals(projetos.get(Projeto.quantProjetos).getProprietario())) {
+			usuarioColaborador = null;
 			return false;
 		}
 
-		projetos.get(Projeto.quantProjetos).getColaboradores().add(colaboradorCadastro);
+		projetos.get(Projeto.quantProjetos).getColaboradores().add(usuarioColaborador);
 		return true;
-
 	}
 
 	public List<Projeto> listar() {
@@ -73,25 +65,18 @@ public class RepositorioProjeto {
 		return null;
 	}
 
-	public boolean excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
+	public boolean excluir(int codigoProjeto, Usuario usuarioProprietario) {
 
-		Usuario usuarioProjetoExcluido = null;
 		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
-			if (senhaProprietario == Sistema.getInstance().getUsuarios().get(i).getSenha()
-					&& nomeProprietario == Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) {
-				usuarioProjetoExcluido = Sistema.getInstance().getUsuarios().get(i);
+			if (usuarioProprietario.equals(projetos.get(i).getProprietario())
+					&& codigoProjeto == Sistema.getInstance().getProjetos().get(i).getCdProjeto()) {
+				projetos.remove(projetos.get(i));
+
 			} else {
 				return false;
 			}
 		}
-		for (int j = 0; j < projetos.size(); j++) {
-			if (codigoProjeto == projetos.get(j).getCdProjeto()
-					&& usuarioProjetoExcluido == projetos.get(j).getProprietario()) {
-				projetos.remove(projetos.get(j));
-			} else {
-				return false;
-			}
-		}
+
 		return true;
 	}
 

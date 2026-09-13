@@ -102,12 +102,12 @@ public class Sistema {
 		return copia;
 	}
 	
-	public Projeto adicionarColaborador(String colaborador) {
-		return cProjeto.addColaborador(colaborador);
+	public boolean adicionarColaborador(Usuario usuarioColaborador) {
+		return cProjeto.addColaborador(usuarioColaborador);
 	}
 	
-	public Projeto excluirProjeto(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
-		return cProjeto.excluir(codigoProjeto, nomeProprietario, senhaProprietario);
+	public boolean excluirProjeto(int codigoProjeto, Usuario usuarioProprietario) {
+		return cProjeto.excluir(codigoProjeto, usuarioProprietario);
 	}
 	
 	

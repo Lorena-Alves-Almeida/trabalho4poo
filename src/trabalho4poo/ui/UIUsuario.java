@@ -1,4 +1,4 @@
-package trabalho4poo.ui;
+Spackage trabalho4poo.ui;
 
 import trabalho4poo.ui.*;
 

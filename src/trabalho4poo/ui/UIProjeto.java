@@ -61,10 +61,11 @@ public class UIProjeto {
 			colaborador = scn.nextLine();
 		}while(!Sistema.getInstance().existeNomeUsuario(colaborador));
 		
-		Projeto usuarioColaborador = Sistema.getInstance().buscarUsuarioPorLogin(colaborador);
+		Usuario usuarioColaborador = Sistema.getInstance().buscarUsuarioPorLogin(colaborador);
 
-		Projeto adicionaColaborador = Sistema.getInstance().adicionarColaborador(colaborador);
-		    if (adicionaColaborador != null) {
+		
+		boolean adicionaColaborador = Sistema.getInstance().adicionarColaborador(usuarioColaborador);
+		    if (adicionaColaborador != false) {
 		    	System.out.println("Colaborador adicionado com sucesso.");
 		    }else {
 		    	System.out.println("Falha ao adicionar colaborador.");
@@ -227,15 +228,20 @@ public class UIProjeto {
 		System.out.print("\nCodigo do projeto: ");
 		int codigoProjeto = scn.nextInt();
 		System.out.print("\nNome do proprietario: ");
-		String nomeProprietario = scn.next();
-		System.out.print("\nSenha do proprietario: ");
-		String senhaProprietario = scn.next();
+		
+		String proprietario;
+		do {
+			System.out.print("\nNome do proprietario: ");
+			proprietario = scn.nextLine();
+		}while(!Sistema.getInstance().existeNomeUsuario(proprietario));
+		
+		Usuario usuarioProprietario = Sistema.getInstance().buscarUsuarioPorLogin(proprietario);
 
-		Projeto excluiProjeto = Sistema.getInstance().excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
-		if (excluiProjeto != null) {
+		boolean excluiProjeto = Sistema.getInstance().excluirProjeto(codigoProjeto, usuarioProprietario);
+		if (excluiProjeto != false) {
 			System.out.println("Projeto excluido com sucesso!");
 		}else {
-			System.out.println("Falha ao excluir projeto");
+			System.out.println("Falha ao excluir projeto.");
 		}
 	}
 //	public void add() {
