@@ -425,6 +425,7 @@ public class Main {
 //				System.out.println("\n=== HTML GERADO EM STRING COM SUCESSO ===");
 //				System.out.println(htmlGerado);
 //				sistema.getProjetos().get(Projeto.quantProjetos).setProjetoCodigo(htmlGerado);
+				uiprojeto.fazer();
 
 				break;
 

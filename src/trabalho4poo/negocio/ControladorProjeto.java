@@ -13,6 +13,7 @@ public class ControladorProjeto {
 		repoProjeto = new RepositorioProjeto();
 	}
 
+	//criar projeto
 	public boolean add(String nmProjeto, Usuario proprietario, String privacidade) {
 		return repoProjeto.add(nmProjeto, proprietario, privacidade);
 	}
