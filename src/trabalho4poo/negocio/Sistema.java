@@ -15,6 +15,7 @@ public class Sistema {
 	
 	private List<Usuario> usuarios;
 	private List<Projeto> projetos;
+	private Usuario usuarioLogado;
 
 	private ControladorUsuario cUsuario;
 	private ControladorProjeto cProjeto;
@@ -133,18 +134,18 @@ public class Sistema {
 		return buscarUsuarioPorLogin(nomeUsuario) != null;
 	}
 
-	public boolean atualizarUsuario(int id, String nome,
-			String senha) {
-		Usuario u = buscarUsuarioPorId(id);
-		if (u == null)
-			return false;
-
-		if (nome != null)
-			u.setNmUsuario(nome);
-		if (senha != null)
-			u.setSenha(senha);
-		return true;
-	}
+//	public boolean atualizarUsuario(int id, String nome,
+//			String senha) {
+//		Usuario u = buscarUsuarioPorId(id);
+//		if (u == null)
+//			return false;
+//
+//		if (nome != null)
+//			u.setNmUsuario(nome);
+//		if (senha != null)
+//			u.setSenha(senha);
+//		return true;
+//	}
 
 	public boolean excluirUsuario(int id) {
 		Usuario u = buscarUsuarioPorId(id);
@@ -155,8 +156,10 @@ public class Sistema {
 	
 	public Usuario autenticarLogin(String nmUsuario, String senha) {
 		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getNmUsuario().equals(nmUsuario) && usuarios.get(i).getSenha().equals(senha))
+			if (usuarios.get(i).getNmUsuario().equals(nmUsuario) && usuarios.get(i).getSenha().equals(senha)) {
+				usuarioLogado = usuarios.get(i);
 				return usuarios.get(i);
+			}
 		}return null;
 	}
 	
@@ -189,5 +192,16 @@ public class Sistema {
 	public List<Usuario> listarUsuarios(){
 		return cUsuario.listar();
 	}
+<<<<<<< Updated upstream
 
+=======
+	
+	public boolean alterarUsuario(Usuario uAlterado) {
+		return cUsuario.alterar(uAlterado);
+	}
+	
+	public Usuario getUsuarioLogado() {
+		return this.usuarioLogado;
+	}
+>>>>>>> Stashed changes
 }

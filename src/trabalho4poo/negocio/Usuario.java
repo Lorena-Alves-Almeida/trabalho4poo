@@ -55,18 +55,25 @@ public class Usuario {
 		return nmUsuario;
 	}
 
-	public void setNmUsuario(String nmUsuario) {
-		if (!nmUsuario.isEmpty() && nmUsuario != null)
+	public boolean setNmUsuario(String nmUsuario) {
+		if (!nmUsuario.isEmpty() && nmUsuario != null) {
 			this.nmUsuario = nmUsuario;
+			return true;
+		}return false;
+
 	}
 
 	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		if (!senha.isEmpty() && senha != null)
+	public boolean setSenha(String senha) {
+		if (!senha.isEmpty() && senha != null) {
 			this.senha = senha;
+			return true;
+		}return false;
+
+		
 	}
 	
     public boolean isExcluido() {

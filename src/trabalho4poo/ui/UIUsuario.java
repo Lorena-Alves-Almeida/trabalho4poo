@@ -42,12 +42,32 @@ public class UIUsuario {
 	}
 	
 	public void alterar() {
-		System.out.print("Novo Nome Login [" + usuario.getNmUsuario() + "]: ");
-		String nomeUsuario = scl.next();
-		System.out.print("Nova senha: ");
-		String senha = scl.next();
+		Usuario uAlterado = Sistema.getInstance().getUsuarioLogado();
+		int escolha = 0;
 		
-		if (Sistema.getInstance().atualizarUsuario(nomeUsuario, senha))
+		String nomeUsuario = null;
+		do {
+			System.out.println("Alterar nome de usuário? 1- sim/ 2- não");
+			escolha = scn.nextInt();
+			if (escolha == 1) {
+				System.out.print("Novo Nome Login [" + Sistema.getInstance().getUsuarioLogado().getNmUsuario() + "]: ");
+				uAlterado.setNmUsuario(scl.next());
+			}
+			
+		}while(escolha < 1 || escolha > 2 && !uAlterado.setNmUsuario(nomeUsuario));
+
+		
+		String senha = null;
+		do {
+			System.out.println("Alterar senha? 1- sim/ 2- não");
+			escolha = scn.nextInt();
+			if (escolha == 1) {
+				System.out.print("Nova senha: ");
+				uAlterado.setSenha(scl.next());
+			}
+		}while(escolha < 1 || escolha > 2 && !uAlterado.setSenha(senha));
+		
+		if (Sistema.getInstance().alterarUsuario(uAlterado))
 			System.out.println("Usuário alterado com sucesso!");
 		else
 			System.out.println("Falha em alterar usuário.");
