@@ -34,6 +34,13 @@ public class ControladorUsuario {
 		return repoUsuario.listar();
 	}
 	
-	//public 
-
+	
+	public boolean alterar(Usuario uAlterado) {
+		if (uAlterado != null && !uAlterado.getNmUsuario().isEmpty()
+				&& repoUsuario.buscarPorNome(uAlterado.getNmUsuario())
+						.getCdUsuario() == uAlterado.getCdUsuario())
+			return repoUsuario.alterar(uAlterado);
+		else
+			return false;
+	}
 }
