@@ -15,32 +15,22 @@ public class RepositorioProjeto {
 	}
 
 	// inserir
-	public boolean add(String nmProjeto, String proprietario, String privacidade) {
+	public boolean add(String nmProjeto, Usuario proprietario, String privacidade) {
 
-		Usuario proprietarioCadastro = null;
 		for (int i = 0; i < projetos.size(); i++) {
 			if (nmProjeto == projetos.get(i).getNmProjeto()) {
 				return false;
 			}
 		}
 
-		for (int i = 0; i < Usuario.quantUsuarios; i++) {
-			if (proprietario.equals(Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) && privacidade.equals("Publico")
-					|| privacidade.equals("Privado")) {
-				proprietarioCadastro = Sistema.getInstance().getUsuarios().get(i);
-			}
+		if (privacidade.equals("Publico") || privacidade.equals("Privado")) {
 		}
-
-		if (proprietarioCadastro == null) {
-			return false;
-		}
-
-		projetos.add(new Projeto(nmProjeto, proprietarioCadastro, privacidade));
+		projetos.add(new Projeto(nmProjeto, proprietario, privacidade));
 
 		return true;
 	}
 
-	public String addColaborador(String colaborador) {
+	public boolean addColaborador(String colaborador) {
 
 		Usuario colaboradorCadastro = null;
 		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
@@ -51,11 +41,11 @@ public class RepositorioProjeto {
 
 		if (colaboradorCadastro.equals(projetos.get(Projeto.quantProjetos).getProprietario())) {
 			colaboradorCadastro = null;
-			return "Falha ao adicionar colaborador!";
+			return false;
 		}
 
 		projetos.get(Projeto.quantProjetos).getColaboradores().add(colaboradorCadastro);
-		return "Colaborador adicionado com sucesso!";
+		return true;
 
 	}
 
@@ -68,31 +58,30 @@ public class RepositorioProjeto {
 					listaCopia.add(new Projeto(p));
 				}
 			}
-		
+
 		return listaCopia;
 	}
-	
+
 	public Projeto buscar(int codigo) {
 
-		for (Projeto p: projetos) {
+		for (Projeto p : projetos) {
 			if (codigo == p.getCdProjeto() && p.getPrivacidade() == "Publico") {
 				return new Projeto(p);
-				
+
 			}
 		}
 		return null;
 	}
 
-	
-	public String excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
+	public boolean excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
 
 		Usuario usuarioProjetoExcluido = null;
 		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
-			if (senhaProprietario == Sistema.getInstance().getUsuarios().get(i).getSenha() 
+			if (senhaProprietario == Sistema.getInstance().getUsuarios().get(i).getSenha()
 					&& nomeProprietario == Sistema.getInstance().getUsuarios().get(i).getNmUsuario()) {
 				usuarioProjetoExcluido = Sistema.getInstance().getUsuarios().get(i);
 			} else {
-				return "Senha ou nome de usuario invalido!";
+				return false;
 			}
 		}
 		for (int j = 0; j < projetos.size(); j++) {
@@ -100,12 +89,11 @@ public class RepositorioProjeto {
 					&& usuarioProjetoExcluido == projetos.get(j).getProprietario()) {
 				projetos.remove(projetos.get(j));
 			} else {
-				return "codigo invalido!";
+				return false;
 			}
 		}
-		return "Projeto excluido.";
+		return true;
 	}
-
 
 	public boolean existeNome(String nome) {
 		for (int i = 0; i < Sistema.getInstance().getProjetos().size(); i++) {

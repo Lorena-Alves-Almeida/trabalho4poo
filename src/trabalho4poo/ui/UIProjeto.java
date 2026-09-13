@@ -28,8 +28,8 @@ public class UIProjeto {
 		do {
 			System.out.print("\nNome do proprietario: ");
 			proprietario = scn.nextLine();
-			
 		}while(!Sistema.getInstance().existeNomeUsuario(proprietario));
+		
 		
 		System.out.print("\nO projeto é Publico ou Privado? ");
 		System.out.println("OBS.: Escreva exatamente 'Publico'/'Privado'");
@@ -37,8 +37,7 @@ public class UIProjeto {
 
 		Usuario usuarioProprietario = Sistema.getInstance().buscarUsuarioPorLogin(proprietario);
 		
-		String criaProjeto = Projeto.getInstance(nmProjeto, usuarioProprietario, privacidade);
-		System.out.println(criaProjeto);
+	    Projeto.getInstance(nmProjeto, usuarioProprietario, privacidade);
 	}
 
 	public void addColaborador() {
@@ -57,9 +56,19 @@ public class UIProjeto {
 		System.out.print("\nNome do colaborador: ");
 		scn.nextLine();
 		String colaborador = scn.nextLine();
+		do {
+			System.out.print("\nNome do colaborador: ");
+			colaborador = scn.nextLine();
+		}while(!Sistema.getInstance().existeNomeUsuario(colaborador));
+		
+		Projeto usuarioColaborador = Sistema.getInstance().buscarUsuarioPorLogin(colaborador);
 
-		String adicionaColaborador = Sistema.addColaborador(colaborador);
-		System.out.println(adicionaColaborador);
+		Projeto adicionaColaborador = Sistema.getInstance().adicionarColaborador(colaborador);
+		    if (adicionaColaborador != null) {
+		    	System.out.println("Colaborador adicionado com sucesso.");
+		    }else {
+		    	System.out.println("Falha ao adicionar colaborador.");
+		    }
 	}
 
 	public void fazer() {
@@ -222,8 +231,12 @@ public class UIProjeto {
 		System.out.print("\nSenha do proprietario: ");
 		String senhaProprietario = scn.next();
 
-		String excluiProjeto = Projeto.excluir(codigoProjeto, nomeProprietario, senhaProprietario);
-		System.out.println(excluiProjeto);
+		Projeto excluiProjeto = Sistema.getInstance().excluirProjeto(codigoProjeto, nomeProprietario, senhaProprietario);
+		if (excluiProjeto != null) {
+			System.out.println("Projeto excluido com sucesso!");
+		}else {
+			System.out.println("Falha ao excluir projeto");
+		}
 	}
 //	public void add() {
 //		System.out.print("Nome: ");

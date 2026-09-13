@@ -30,5 +30,13 @@ public class ControladorProjeto {
 	public List<Projeto> listar() {
 		return repoProjeto.listar();
 	}
+	
+	public boolean excluir(int codigoProjeto, String nomeProprietario, String senhaProprietario) {
+		return repoProjeto.excluir(codigoProjeto, nomeProprietario, senhaProprietario);
+	}
+
+	public boolean addColaborador(String colaborador) {
+		return repoProjeto.addColaborador(colaborador);
+	}
 
 }
