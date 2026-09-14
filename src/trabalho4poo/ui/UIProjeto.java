@@ -3,6 +3,7 @@ package trabalho4poo.ui;
 import java.util.List;
 import java.util.Scanner;
 
+import trabalho4poo.dados.RepositorioProjeto;
 import trabalho4poo.negocio.Div;
 import trabalho4poo.negocio.Formulario;
 import trabalho4poo.negocio.Input;
@@ -13,880 +14,498 @@ import trabalho4poo.negocio.Usuario;
 
 public class UIProjeto {
 
-    private static Scanner scn = new Scanner(System.in);
+	private static Scanner scn = new Scanner(System.in);
 
-    public void add() {
+	public void add() {
 
-        System.out.println("================================================================");
-        System.out.println("--- Criando um novo projeto ---");
+		System.out.println("================================================================");
+		System.out.println("--- Criando um novo projeto ---");
 
-        System.out.print("\nNome do projeto: ");
-        String nmProjeto = scn.nextLine();
+		System.out.print("\nNome do projeto: ");
+		String nmProjeto = scn.nextLine();
 
-        if (nmProjeto == null
-                || nmProjeto.trim().isEmpty()) {
+		if (nmProjeto == null || nmProjeto.trim().isEmpty()) {
 
-            System.out.println(
-                    "Nome inválido.");
+			System.out.println("Nome inválido.");
 
-            return;
+			return;
+		}
+
+		System.out.print("\nNome do proprietário: ");
+
+		String proprietario = scn.nextLine();
+
+		while (!Sistema.getInstance().existeNomeUsuario(proprietario)) {
+
+			System.out.println("Usuário não encontrado.");
+
+			System.out.print("Nome do proprietário: ");
+
+			proprietario = scn.nextLine();
+		}
+
+		System.out.println("\nO projeto é Publico ou Privado?");
+
+		System.out.println("Digite exatamente 'Publico' ou 'Privado'.");
+
+		String privacidade = scn.nextLine();
+
+		while (!privacidade.equals("Publico") && !privacidade.equals("Privado")) {
+
+			System.out.println("Opção inválida.");
+
+			System.out.print("Digite Publico ou Privado: ");
+
+			privacidade = scn.nextLine();
+		}
+
+		Usuario usuarioProprietario = Sistema.getInstance().buscarUsuarioPorLogin(proprietario);
+
+		if (Sistema.getInstance().criarProjeto(nmProjeto, usuarioProprietario, privacidade)) {
+
+			System.out.println("\nProjeto criado com sucesso!");
+
+		} else {
+
+			System.out.println("\nFalha ao criar projeto.");
+		}
+	}
+
+	public void addColaborador() {
+
+		System.out.println();
+		System.out.println("----- Adicionar colaborador -----");
+
+		System.out.println("\n---- Usuários ----");
+
+		listarUsuarios();
+
+		System.out.print("\nCódigo do projeto: ");
+
+		int codigoProjeto = lerInteiro();
+
+		Projeto projeto = Sistema.getInstance().buscarProjetoPorCodigoPrivado(codigoProjeto);
+
+		if (projeto == null) {
+
+			System.out.println("Projeto não encontrado.");
+
+			return;
+		}
+
+		Usuario usuarioLogado = Sistema.getInstance().getUsuarioLogado();
+
+		if (usuarioLogado == null) {
+
+			System.out.println("Nenhum usuário está logado.");
+
+			return;
+		}
+
+		if (projeto.getProprietario().getCdUsuario() != usuarioLogado.getCdUsuario()) {
+
+			System.out.println("Somente o proprietário " + "pode adicionar colaboradores.");
+
+			return;
+		}
+
+		System.out.print("\nNome do colaborador: ");
+
+		String colaborador = scn.nextLine();
+
+		while (!Sistema.getInstance().existeNomeUsuario(colaborador)) {
+
+			System.out.println("Usuário não encontrado.");
+
+			System.out.print("Nome do colaborador: ");
+
+			colaborador = scn.nextLine();
+		}
+
+		Usuario usuarioColaborador = Sistema.getInstance().buscarUsuarioPorLogin(colaborador);
+
+		boolean resultado = Sistema.getInstance().adicionarColaborador(codigoProjeto, usuarioColaborador);
+
+		if (resultado) {
+
+			System.out.println("Colaborador adicionado com sucesso.");
+
+		} else {
+
+			System.out.println("Falha ao adicionar colaborador.");
+		}
+	}
+
+	private void listarUsuarios() {
+
+		List<Usuario> usuarios = Sistema.getInstance().listarUsuarios();
+
+		System.out.println("|COD. | NOME");
+
+		for (int i = 0; i < usuarios.size(); i++) {
+
+			Usuario usuario = usuarios.get(i);
+
+			if (usuario != null) {
+
+				System.out.printf("%-6s %-20s%n", usuario.getCdUsuario(), usuario.getNmUsuario());
+			}
+		}
+	}
+
+	public void fazer() {
+
+		System.out.println("=== CONFIGURADOR DE LAYOUT DINÂMICO ===");
+
+        // 1. Definição da quantidade de Colunas e Divs
+        System.out.print("\nQuantas Colunas deseja criar no container principal? ");
+        int qtdColunas = scn.nextInt();
+
+        System.out.print("Quantas Divs deseja criar empilhadas por coluna? ");
+        int qtdDivs = scn.nextInt();
+
+        // 2. Definição dos Formulários e seus Inputs
+        System.out.print("Quantos Formulários deseja criar? ");
+        int qtdForms = scn.nextInt();
+        scn.nextLine(); // Consome a quebra de linha do scanner
+
+        // 3. Posicionamento e Altura
+        System.out.println("\nQual a disposição no container principal?");
+        System.out.println("1 - Colunas de Divs na Esquerda | Formulários na Direita");
+        System.out.println("2 - Formulários na Esquerda | Colunas de Divs na Direita");
+        System.out.print("Opção: ");
+        int posicao = scn.nextInt();
+
+        System.out.print("\nQual a altura total do container (em px)? ");
+        int alturaPx = scn.nextInt();
+        scn.nextLine();
+
+        if (qtdColunas <= 0) {
+            qtdColunas = 1;
         }
 
-        System.out.print(
-                "\nNome do proprietário: ");
+        // --- CONSTRUÇÃO DA ESTRUTURA HTML ---
 
-        String proprietario =
+        // Container Principal
+        Div containerPrincipal = new Div("main-container", "flex-container");
+        containerPrincipal.adicionarEstilo("display", "flex");
+        containerPrincipal.adicionarEstilo("gap", "20px");
+        containerPrincipal.adicionarEstilo("width", "100%");
+        containerPrincipal.adicionarEstilo("height", alturaPx + "px");
+
+        // Cálculo dinâmico da largura de cada coluna no layout
+        int totalColunasLayout = qtdForms > 0 ? (qtdColunas + 1) : qtdColunas;
+        int larguraColunaPorcentagem = 100 / totalColunasLayout;
+
+        // Coluna de Formulários
+        Div colunaForms = new Div("coluna-forms", "coluna");
+        colunaForms.adicionarEstilo("display", "flex");
+        colunaForms.adicionarEstilo("flex-direction", "column");
+        colunaForms.adicionarEstilo("width", larguraColunaPorcentagem + "%");
+        colunaForms.adicionarEstilo("height", "100%");
+        colunaForms.adicionarEstilo("gap", "15px");
+
+        if (qtdForms > 0) {
+            for (int f = 1; f <= qtdForms; f++) {
+                System.out.println("\n--- CONFIGURAÇÃO DO FORMULÁRIO " + f + " ---");
+                System.out.print("Quantos inputs este formulário terá? ");
+                int qtdInputs = scn.nextInt();
                 scn.nextLine();
 
-        while (!Sistema.getInstance()
-                .existeNomeUsuario(proprietario)) {
-
-            System.out.println(
-                    "Usuário não encontrado.");
-
-            System.out.print(
-                    "Nome do proprietário: ");
-
-            proprietario =
-                    scn.nextLine();
-        }
-
-        System.out.println(
-                "\nO projeto é Publico ou Privado?");
-
-        System.out.println(
-                "Digite exatamente 'Publico' ou 'Privado'.");
-
-        String privacidade =
-                scn.nextLine();
-
-        while (!privacidade.equals("Publico")
-                && !privacidade.equals("Privado")) {
-
-            System.out.println(
-                    "Opção inválida.");
-
-            System.out.print(
-                    "Digite Publico ou Privado: ");
-
-            privacidade =
-                    scn.nextLine();
-        }
-
-        Usuario usuarioProprietario =
-                Sistema.getInstance()
-                        .buscarUsuarioPorLogin(
-                                proprietario);
-
-        if (Sistema.getInstance()
-                .criarProjeto(
-                        nmProjeto,
-                        usuarioProprietario,
-                        privacidade)) {
-
-            System.out.println(
-                    "\nProjeto criado com sucesso!");
-
-        } else {
-
-            System.out.println(
-                    "\nFalha ao criar projeto.");
-        }
-    }
-
-    public void addColaborador() {
-
-        System.out.println();
-        System.out.println(
-                "----- Adicionar colaborador -----");
-
-        System.out.println(
-                "\n---- Usuários ----");
-
-        listarUsuarios();
-
-        System.out.print(
-                "\nCódigo do projeto: ");
-
-        int codigoProjeto =
-                lerInteiro();
-
-        Projeto projeto =
-                Sistema.getInstance()
-                        .buscarProjetoPorCodigoPrivado(
-                                codigoProjeto);
-
-        if (projeto == null) {
-
-            System.out.println(
-                    "Projeto não encontrado.");
-
-            return;
-        }
-
-        Usuario usuarioLogado =
-                Sistema.getInstance()
-                        .getUsuarioLogado();
-
-        if (usuarioLogado == null) {
-
-            System.out.println(
-                    "Nenhum usuário está logado.");
-
-            return;
-        }
-
-        if (projeto.getProprietario()
-                .getCdUsuario()
-                != usuarioLogado.getCdUsuario()) {
-
-            System.out.println(
-                    "Somente o proprietário "
-                    + "pode adicionar colaboradores.");
-
-            return;
-        }
-
-        System.out.print(
-                "\nNome do colaborador: ");
-
-        String colaborador =
-                scn.nextLine();
-
-        while (!Sistema.getInstance()
-                .existeNomeUsuario(colaborador)) {
-
-            System.out.println(
-                    "Usuário não encontrado.");
-
-            System.out.print(
-                    "Nome do colaborador: ");
-
-            colaborador =
-                    scn.nextLine();
-        }
-
-        Usuario usuarioColaborador =
-                Sistema.getInstance()
-                        .buscarUsuarioPorLogin(
-                                colaborador);
-
-        boolean resultado =
-                Sistema.getInstance()
-                        .adicionarColaborador(
-                                codigoProjeto,
-                                usuarioColaborador);
-
-        if (resultado) {
-
-            System.out.println(
-                    "Colaborador adicionado com sucesso.");
-
-        } else {
-
-            System.out.println(
-                    "Falha ao adicionar colaborador.");
-        }
-    }
-
-    private void listarUsuarios() {
-
-        List<Usuario> usuarios =
-                Sistema.getInstance()
-                        .listarUsuarios();
-
-        System.out.println(
-                "|COD. | NOME");
-
-        for (int i = 0;
-                i < usuarios.size();
-                i++) {
-
-            Usuario usuario =
-                    usuarios.get(i);
-
-            if (usuario != null) {
-
-                System.out.printf(
-                        "%-6s %-20s%n",
-                        usuario.getCdUsuario(),
-                        usuario.getNmUsuario());
-            }
-        }
-    }
-
-    public void fazer() {
-
-        System.out.println(
-                "=========================================================================");
-
-        System.out.println(
-                "=== CONFIGURADOR DE LAYOUT DINÂMICO ===");
-
-        System.out.print(
-                "\nCódigo do projeto: ");
-
-        int codigoProjeto =
-                lerInteiro();
-
-        Projeto projeto =
-                Sistema.getInstance()
-                        .buscarProjetoPorCodigoPrivado(
-                                codigoProjeto);
-
-        if (projeto == null) {
-
-            System.out.println(
-                    "Projeto não encontrado.");
-
-            return;
-        }
-
-        Usuario usuarioLogado =
-                Sistema.getInstance()
-                        .getUsuarioLogado();
-
-        if (usuarioLogado == null) {
-
-            System.out.println(
-                    "Nenhum usuário está logado.");
-
-            return;
-        }
-
-        boolean podeFazer = false;
-
-        if (projeto.getProprietario()
-                .getCdUsuario()
-                == usuarioLogado.getCdUsuario()) {
-
-            podeFazer = true;
-        }
-
-        for (int i = 0;
-                i < projeto.getColaboradores().size();
-                i++) {
-
-            if (projeto.getColaboradores()
-                    .get(i)
-                    .getCdUsuario()
-                    == usuarioLogado.getCdUsuario()) {
-
-                podeFazer = true;
-            }
-        }
-
-        if (!podeFazer) {
-
-            System.out.println(
-                    "Você não participa desse projeto.");
-
-            return;
-        }
-
-        // ------------------------------------------------------------
-        // A partir daqui permanece a lógica original de fazer()
-        // ------------------------------------------------------------
-
-        System.out.print(
-                "\nQuantas Divs deseja criar na coluna de Divs? ");
-
-        int qtdDivs =
-                lerInteiro();
-
-        if (qtdDivs < 0) {
-            System.out.println(
-                    "Quantidade inválida.");
-            return;
-        }
-
-        System.out.print(
-                "\nDeseja incluir coluna de Formulários "
-                + "no layout? (1 - Sim | 2 - Não): ");
-
-        int incluirForms =
-                lerInteiro();
-
-        int qtdForms = 0;
-        int posicao = 1;
-
-        if (incluirForms == 1) {
-
-            System.out.print(
-                    "Quantos Formulários deseja criar? ");
-
-            qtdForms =
-                    lerInteiro();
-
-            System.out.println(
-                    "\nQual a disposição no container principal?");
-
-            System.out.println(
-                    "1 - Divs na Esquerda | "
-                    + "Formulários na Direita");
-
-            System.out.println(
-                    "2 - Formulários na Esquerda | "
-                    + "Divs na Direita");
-
-            System.out.print(
-                    "Opção: ");
-
-            posicao =
-                    lerInteiro();
-        }
-
-        int colunasAtivas =
-                (incluirForms == 1
-                        && qtdForms > 0)
-                ? 2
-                : 1;
-
-        System.out.print(
-                "\nQual a altura total do container (em px)? ");
-
-        int alturaPx =
-                lerInteiro();
-
-        Div containerPrincipal =
-                new Div(
-                        "main-container",
-                        "flex-container");
-
-        containerPrincipal.adicionarEstilo(
-                "display", "flex");
-
-        containerPrincipal.adicionarEstilo(
-                "gap", "20px");
-
-        containerPrincipal.adicionarEstilo(
-                "width", "100%");
-
-        containerPrincipal.adicionarEstilo(
-                "height", alturaPx + "px");
-
-        int larguraPorcentagemColuna =
-                100 / colunasAtivas;
-
-        Div colunaDivs =
-                new Div(
-                        "coluna-divs",
-                        "coluna");
-
-        colunaDivs.adicionarEstilo(
-                "display", "flex");
-
-        colunaDivs.adicionarEstilo(
-                "flex-direction", "column");
-
-        colunaDivs.adicionarEstilo(
-                "width",
-                larguraPorcentagemColuna + "%");
-
-        colunaDivs.adicionarEstilo(
-                "height", "100%");
-
-        colunaDivs.adicionarEstilo(
-                "gap", "10px");
-
-        int alturaPorcentagemDiv =
-                qtdDivs > 0
-                ? 100 / qtdDivs
-                : 100;
-
-        for (int i = 1;
-                i <= qtdDivs;
-                i++) {
-
-            Div divFilha =
-                    new Div(
-                            "div-filha-" + i,
-                            "caixa-filha");
-
-            divFilha.adicionarEstilo(
-                    "height",
-                    alturaPorcentagemDiv + "%");
-
-            divFilha.adicionarEstilo(
-                    "background-color",
-                    "#e0e0e0");
-
-            divFilha.adicionarFilho(
-                    new Paragrafo(
-                            "p-" + i,
-                            "texto",
-                            "Conteúdo da Div " + i));
-
-            colunaDivs.adicionarFilho(
-                    divFilha);
-        }
-
-        Div colunaForms = null;
-
-        if (incluirForms == 1
-                && qtdForms > 0) {
-
-            colunaForms =
-                    new Div(
-                            "coluna-forms",
-                            "coluna");
-
-            colunaForms.adicionarEstilo(
-                    "display", "flex");
-
-            colunaForms.adicionarEstilo(
-                    "flex-direction",
-                    "column");
-
-            colunaForms.adicionarEstilo(
-                    "width",
-                    larguraPorcentagemColuna + "%");
-
-            colunaForms.adicionarEstilo(
-                    "height", "100%");
-
-            colunaForms.adicionarEstilo(
-                    "gap", "15px");
-
-            for (int f = 1;
-                    f <= qtdForms;
-                    f++) {
-
-                System.out.println(
-                        "\n--- CONFIGURAÇÃO DO FORMULÁRIO "
-                        + f + " ---");
-
-                System.out.print(
-                        "Quantos inputs este formulário terá? ");
-
-                int qtdInputs =
-                        lerInteiro();
-
-                Formulario form =
-                        new Formulario(
-                                "form-" + f,
-                                "formulario-estilizado",
-                                "/enviar",
-                                "POST");
-
-                form.adicionarEstilo(
-                        "display", "flex");
-
-                form.adicionarEstilo(
-                        "flex-direction",
-                        "column");
-
-                form.adicionarEstilo(
-                        "gap", "10px");
-
-                form.adicionarEstilo(
-                        "background-color",
-                        "#f9f9f9");
-
-                form.adicionarEstilo(
-                        "padding", "15px");
-
-                for (int inp = 1;
-                        inp <= qtdInputs;
-                        inp++) {
-
-                    System.out.print(
-                            "Texto do placeholder para o Input "
-                            + inp + ": ");
-
-                    String placeholder =
-                            scn.nextLine();
-
-                    Input input =
-                            new Input(
-                                    "input-" + f + "-" + inp,
-                                    "campo",
-                                    "text",
-                                    "campo_" + f + "_" + inp,
-                                    placeholder);
-
+                Formulario form = new Formulario("form-" + f, "formulario-estilizado", "/enviar", "POST");
+                form.adicionarEstilo("display", "flex");
+                form.adicionarEstilo("flex-direction", "column");
+                form.adicionarEstilo("gap", "10px");
+                form.adicionarEstilo("background-color", "#f9f9f9");
+                form.adicionarEstilo("padding", "15px");
+
+                for (int inp = 1; inp <= qtdInputs; inp++) {
+                    System.out.print("Texto do placeholder para o Input " + inp + ": ");
+                    String placeholder = scn.nextLine();
+
+                    Input input = new Input(
+                        "input-" + f + "-" + inp,
+                        "campo",
+                        "text",
+                        "campo_" + f + "_" + inp,
+                        placeholder
+                    );
                     form.adicionarFilho(input);
                 }
-
-                colunaForms.adicionarFilho(
-                        form);
+                colunaForms.adicionarFilho(form);
             }
         }
 
-        if (colunaForms != null) {
+        // Se a opção for 2, os formulários entram primeiro (na esquerda)
+        if (posicao == 2 && qtdForms > 0) {
+            containerPrincipal.adicionarFilho(colunaForms);
+        }
 
-            if (posicao == 1) {
+        // Criação das colunas de Divs informadas pelo usuário
+        int alturaPorcentagemDiv = qtdDivs > 0 ? 100 / qtdDivs : 100;
 
-                containerPrincipal.adicionarFilho(
-                        colunaDivs);
+        for (int c = 1; c <= qtdColunas; c++) {
+            Div colunaDivs = new Div("coluna-divs-" + c, "coluna");
+            colunaDivs.adicionarEstilo("display", "flex");
+            colunaDivs.adicionarEstilo("flex-direction", "column");
+            colunaDivs.adicionarEstilo("width", larguraColunaPorcentagem + "%");
+            colunaDivs.adicionarEstilo("height", "100%");
+            colunaDivs.adicionarEstilo("gap", "10px");
 
-                containerPrincipal.adicionarFilho(
-                        colunaForms);
-
-            } else {
-
-                containerPrincipal.adicionarFilho(
-                        colunaForms);
-
-                containerPrincipal.adicionarFilho(
-                        colunaDivs);
+            for (int i = 1; i <= qtdDivs; i++) {
+                Div divFilha = new Div("div-c" + c + "-filha-" + i, "caixa-filha");
+                divFilha.adicionarEstilo("height", alturaPorcentagemDiv + "%");
+                divFilha.adicionarEstilo("background-color", "#e0e0e0");
+                divFilha.adicionarFilho(new Paragrafo("p-c" + c + "-" + i, "texto", "Conteúdo da Div " + i + " (Coluna " + c + ")"));
+                colunaDivs.adicionarFilho(divFilha);
             }
 
-        } else {
-
-            containerPrincipal.adicionarFilho(
-                    colunaDivs);
+            containerPrincipal.adicionarFilho(colunaDivs);
         }
 
-        StringBuilder sb =
-                new StringBuilder();
-
-        sb.append(
-                "<!-- HTML Gerado Dinamicamente -->\n");
-
-        sb.append(
-                containerPrincipal.renderizar(0));
-
-        String htmlGerado =
-                sb.toString();
-
-        if (Sistema.getInstance()
-                .alterarCodigoProjeto(
-                        codigoProjeto,
-                        htmlGerado)) {
-
-            System.out.println(
-                    "\n=== HTML GERADO COM SUCESSO ===");
-
-            System.out.println(
-                    htmlGerado);
-
-        } else {
-
-            System.out.println(
-                    "\nFalha ao salvar o código HTML.");
-        }
-    }
-
-    public void listar() {
-
-        List<Projeto> listaCopia =
-                Sistema.getInstance()
-                        .listarProjetos();
-
-        System.out.println(
-                "\n--- Lista de projetos ---");
-
-        if (listaCopia.isEmpty()) {
-
-            System.out.println(
-                    "Não existem projetos cadastrados.");
-
-            return;
+        // Se a opção for 1, os formulários entram no final (na direita)
+        if (posicao == 1 && qtdForms > 0) {
+            containerPrincipal.adicionarFilho(colunaForms);
         }
 
-        System.out.println(
-                "|COD. | NOME | PROPRIETÁRIO | PRIVACIDADE");
+        // Guarda o resultado gerado em uma variável String usando o método original
+        String codigoFinalHtml = containerPrincipal.renderizar(0);
 
-        for (int i = 0;
-                i < listaCopia.size();
-                i++) {
+        // Renderização do HTML gerado
+        System.out.println("\n=== HTML GERADO COM SUCESSO ===");
+        System.out.println(codigoFinalHtml);
+        RepositorioProjeto.projetos.get(Projeto.quantProjetos).projetoCodigo = codigoFinalHtml;
+	}
 
-            Projeto projeto =
-                    listaCopia.get(i);
+	public void listar() {
 
-            System.out.printf(
-                    "%-6s %-20s %-20s %-12s%n",
-                    projeto.getCdProjeto(),
-                    projeto.getNmProjeto(),
-                    projeto.getProprietario()
-                            .getNmUsuario(),
-                    projeto.getPrivacidade());
-        }
-    }
+		List<Projeto> listaCopia = Sistema.getInstance().listarProjetos();
 
-    public void projetoPorCodigo() {
+		System.out.println("\n--- Lista de projetos ---");
 
-        System.out.println();
-        System.out.println(
-                "--- Procurar projeto por código ---");
+		if (listaCopia.isEmpty()) {
 
-        System.out.print(
-                "Código: ");
+			System.out.println("Não existem projetos cadastrados.");
 
-        int codigo =
-                lerInteiro();
+			return;
+		}
 
-        Projeto projeto =
-                Sistema.getInstance()
-                        .buscarProjetoPorCodigo(
-                                codigo);
+		System.out.println("|COD. | NOME | PROPRIETÁRIO | PRIVACIDADE");
 
-        if (projeto != null) {
+		for (int i = 0; i < listaCopia.size(); i++) {
 
-            System.out.println(
-                    "\nCódigo: "
-                    + projeto.getCdProjeto());
+			Projeto projeto = listaCopia.get(i);
 
-            System.out.println(
-                    "Nome: "
-                    + projeto.getNmProjeto());
+			System.out.printf("%-6s %-20s %-20s %-12s%n", projeto.getCdProjeto(), projeto.getNmProjeto(),
+					projeto.getProprietario().getNmUsuario(), projeto.getPrivacidade());
+		}
+	}
 
-            System.out.println(
-                    "Proprietário: "
-                    + projeto.getProprietario()
-                        .getNmUsuario());
+	public void projetoPorCodigo() {
 
-            System.out.println(
-                    "Privacidade: "
-                    + projeto.getPrivacidade());
+		System.out.println();
+		System.out.println("--- Procurar projeto por código ---");
 
-        } else {
+		System.out.print("Código: ");
 
-            System.out.println(
-                    "Código não encontrado "
-                    + "ou projeto privado.");
-        }
-    }
+		int codigo = lerInteiro();
 
-    public void alterar() {
+		Projeto projeto = Sistema.getInstance().buscarProjetoPorCodigo(codigo);
 
-        System.out.println();
-        System.out.println(
-                "--- Alterar projeto ---");
+		if (projeto != null) {
 
-        System.out.print(
-                "Código do projeto: ");
+			System.out.println("\nCódigo: " + projeto.getCdProjeto());
 
-        int codigo =
-                lerInteiro();
+			System.out.println("Nome: " + projeto.getNmProjeto());
 
-        Projeto projeto =
-                Sistema.getInstance()
-                        .buscarProjetoPorCodigoPrivado(
-                                codigo);
+			System.out.println("Proprietário: " + projeto.getProprietario().getNmUsuario());
 
-        if (projeto == null) {
+			System.out.println("Privacidade: " + projeto.getPrivacidade());
 
-            System.out.println(
-                    "Projeto não encontrado.");
+		} else {
 
-            return;
-        }
+			System.out.println("Código não encontrado " + "ou projeto privado.");
+		}
+	}
 
-        Usuario usuarioLogado =
-                Sistema.getInstance()
-                        .getUsuarioLogado();
+	public void alterar() {
 
-        if (usuarioLogado == null
-                || projeto.getProprietario()
-                    .getCdUsuario()
-                    != usuarioLogado.getCdUsuario()) {
+		System.out.println();
+		System.out.println("--- Alterar projeto ---");
 
-            System.out.println(
-                    "Somente o proprietário pode alterar o projeto.");
+		System.out.print("Código do projeto: ");
 
-            return;
-        }
+		int codigo = lerInteiro();
 
-        int opcao;
+		Projeto projeto = Sistema.getInstance().buscarProjetoPorCodigoPrivado(codigo);
 
-        do {
+		if (projeto == null) {
 
-            System.out.println();
-            System.out.println(
-                    "1 - Alterar nome");
+			System.out.println("Projeto não encontrado.");
 
-            System.out.println(
-                    "2 - Alterar privacidade");
+			return;
+		}
 
-            System.out.println(
-                    "3 - Adicionar colaborador");
+		Usuario usuarioLogado = Sistema.getInstance().getUsuarioLogado();
 
-            System.out.println(
-                    "0 - Voltar");
+		if (usuarioLogado == null || projeto.getProprietario().getCdUsuario() != usuarioLogado.getCdUsuario()) {
 
-            System.out.print(
-                    "Escolha: ");
+			System.out.println("Somente o proprietário pode alterar o projeto.");
 
-            opcao =
-                    lerInteiro();
+			return;
+		}
 
-            switch (opcao) {
+		int opcao;
 
-            case 1:
+		do {
 
-                System.out.print(
-                        "Novo nome: ");
+			System.out.println();
+			System.out.println("1 - Alterar nome");
 
-                String novoNome =
-                        scn.nextLine();
+			System.out.println("2 - Alterar privacidade");
 
-                if (novoNome.trim().isEmpty()) {
+			System.out.println("3 - Adicionar colaborador");
 
-                    System.out.println(
-                            "Nome inválido.");
+			System.out.println("0 - Voltar");
 
-                    break;
-                }
+			System.out.print("Escolha: ");
 
-                projeto.setNmProjeto(
-                        novoNome);
+			opcao = lerInteiro();
 
-                if (Sistema.getInstance()
-                        .alterarProjeto(projeto)) {
+			switch (opcao) {
 
-                    System.out.println(
-                            "Nome alterado com sucesso.");
+			case 1:
 
-                } else {
+				System.out.print("Novo nome: ");
 
-                    System.out.println(
-                            "Falha ao alterar projeto.");
-                }
+				String novoNome = scn.nextLine();
 
-                break;
+				if (novoNome.trim().isEmpty()) {
 
-            case 2:
+					System.out.println("Nome inválido.");
 
-                System.out.println(
-                        "1 - Publico");
+					break;
+				}
 
-                System.out.println(
-                        "2 - Privado");
+				projeto.setNmProjeto(novoNome);
 
-                System.out.print(
-                        "Escolha: ");
+				if (Sistema.getInstance().alterarProjeto(projeto)) {
 
-                int privacidade =
-                        lerInteiro();
+					System.out.println("Nome alterado com sucesso.");
 
-                if (privacidade == 1) {
+				} else {
 
-                    projeto.setPrivacidade(
-                            "Publico");
+					System.out.println("Falha ao alterar projeto.");
+				}
 
-                } else if (privacidade == 2) {
+				break;
 
-                    projeto.setPrivacidade(
-                            "Privado");
+			case 2:
 
-                } else {
+				System.out.println("1 - Publico");
 
-                    System.out.println(
-                            "Opção inválida.");
+				System.out.println("2 - Privado");
 
-                    break;
-                }
+				System.out.print("Escolha: ");
 
-                if (Sistema.getInstance()
-                        .alterarProjeto(projeto)) {
+				int privacidade = lerInteiro();
 
-                    System.out.println(
-                            "Privacidade alterada com sucesso.");
+				if (privacidade == 1) {
 
-                } else {
+					projeto.setPrivacidade("Publico");
 
-                    System.out.println(
-                            "Falha ao alterar projeto.");
-                }
+				} else if (privacidade == 2) {
 
-                break;
+					projeto.setPrivacidade("Privado");
 
-            case 3:
-                addColaborador();
-                break;
+				} else {
 
-            case 0:
-                break;
+					System.out.println("Opção inválida.");
 
-            default:
-                System.out.println(
-                        "Opção inválida.");
-            }
+					break;
+				}
 
-        } while (opcao != 0);
-    }
+				if (Sistema.getInstance().alterarProjeto(projeto)) {
 
-    public void excluir() {
+					System.out.println("Privacidade alterada com sucesso.");
 
-        System.out.println();
-        System.out.println(
-                "--- Excluir projeto ---");
+				} else {
 
-        System.out.print(
-                "Código do projeto: ");
+					System.out.println("Falha ao alterar projeto.");
+				}
 
-        int codigoProjeto =
-                lerInteiro();
+				break;
 
-        Projeto projeto =
-                Sistema.getInstance()
-                        .buscarProjetoPorCodigoPrivado(
-                                codigoProjeto);
+			case 3:
+				addColaborador();
+				break;
 
-        if (projeto == null) {
+			case 0:
+				break;
 
-            System.out.println(
-                    "Projeto não encontrado.");
+			default:
+				System.out.println("Opção inválida.");
+			}
 
-            return;
-        }
+		} while (opcao != 0);
+	}
 
-        Usuario usuarioLogado =
-                Sistema.getInstance()
-                        .getUsuarioLogado();
+	public void excluir() {
 
-        if (usuarioLogado == null
-                || projeto.getProprietario()
-                    .getCdUsuario()
-                    != usuarioLogado.getCdUsuario()) {
+		System.out.println();
+		System.out.println("--- Excluir projeto ---");
 
-            System.out.println(
-                    "Somente o proprietário pode excluir o projeto.");
+		System.out.print("Código do projeto: ");
 
-            return;
-        }
+		int codigoProjeto = lerInteiro();
 
-        System.out.print(
-                "Deseja realmente excluir? "
-                + "(1-Sim / 2-Não): ");
+		Projeto projeto = Sistema.getInstance().buscarProjetoPorCodigoPrivado(codigoProjeto);
 
-        int opcao =
-                lerInteiro();
+		if (projeto == null) {
 
-        if (opcao == 1) {
+			System.out.println("Projeto não encontrado.");
 
-            if (Sistema.getInstance()
-                    .excluirProjeto(
-                            codigoProjeto,
-                            usuarioLogado)) {
+			return;
+		}
 
-                System.out.println(
-                        "Projeto excluído com sucesso.");
+		Usuario usuarioLogado = Sistema.getInstance().getUsuarioLogado();
 
-            } else {
+		if (usuarioLogado == null || projeto.getProprietario().getCdUsuario() != usuarioLogado.getCdUsuario()) {
 
-                System.out.println(
-                        "Falha ao excluir projeto.");
-            }
-        }
-    }
+			System.out.println("Somente o proprietário pode excluir o projeto.");
 
-    private int lerInteiro() {
+			return;
+		}
 
-        while (true) {
+		System.out.print("Deseja realmente excluir? " + "(1-Sim / 2-Não): ");
 
-            try {
+		int opcao = lerInteiro();
 
-                return Integer.parseInt(
-                        scn.nextLine());
+		if (opcao == 1) {
 
-            } catch (NumberFormatException e) {
+			if (Sistema.getInstance().excluirProjeto(codigoProjeto, usuarioLogado)) {
 
-                System.out.print(
-                        "Digite um número válido: ");
-            }
-        }
-    }
+				System.out.println("Projeto excluído com sucesso.");
+
+			} else {
+
+				System.out.println("Falha ao excluir projeto.");
+			}
+		}
+	}
+
+	private int lerInteiro() {
+
+		while (true) {
+
+			try {
+
+				return Integer.parseInt(scn.nextLine());
+
+			} catch (NumberFormatException e) {
+
+				System.out.print("Digite um número válido: ");
+			}
+		}
+	}
 }
