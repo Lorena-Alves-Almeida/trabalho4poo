@@ -43,4 +43,8 @@ public class ControladorUsuario {
 		else
 			return false;
 	}
+	
+	public boolean excluir(int codigo) {
+		return repoUsuario.excluir(codigo); 
+	}
 }

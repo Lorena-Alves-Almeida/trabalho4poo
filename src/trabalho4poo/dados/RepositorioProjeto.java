@@ -3,9 +3,8 @@ package trabalho4poo.dados;
 import java.util.ArrayList;
 import java.util.List;
 
-import trabalho4poo.ui.*;
-import trabalho4poo.negocio.*;
-import trabalho4poo.dados.*;
+import trabalho4poo.negocio.Projeto;
+import trabalho4poo.negocio.Usuario;
 
 public class RepositorioProjeto {
 	private List<Projeto> projetos;
@@ -15,7 +14,10 @@ public class RepositorioProjeto {
 	}
 
 	// inserir
-	public boolean add(String nmProjeto, Usuario proprietario, String privacidade) {
+	public boolean add(
+			String nmProjeto,
+			Usuario proprietario,
+			String privacidade) {
 
 		for (int i = 0; i < projetos.size(); i++) {
 			if (nmProjeto == projetos.get(i).getNmProjeto()) {
@@ -23,33 +25,93 @@ public class RepositorioProjeto {
 			}
 		}
 
-		if (privacidade.equals("Publico") || privacidade.equals("Privado")) {
+		if (privacidade.equals("Publico")
+				|| privacidade.equals("Privado")) {
 		}
-		projetos.add(new Projeto(nmProjeto, proprietario, privacidade));
+
+		projetos.add(
+				new Projeto(
+						nmProjeto,
+						proprietario,
+						privacidade));
 
 		return true;
 	}
 
-	public boolean addColaborador(Usuario usuarioColaborador) {
+	public boolean addColaborador(
+			int codigoProjeto,
+			Usuario usuarioColaborador) {
 
-		if (usuarioColaborador.equals(projetos.get(Projeto.quantProjetos).getProprietario())) {
-			usuarioColaborador = null;
+		if (usuarioColaborador == null) {
 			return false;
 		}
 
-		projetos.get(Projeto.quantProjetos).getColaboradores().add(usuarioColaborador);
+		for (int i = 0; i < projetos.size(); i++) {
+
+			Projeto projeto = projetos.get(i);
+
+			if (codigoProjeto == projeto.getCdProjeto()) {
+
+				if (usuarioColaborador.equals(
+						projeto.getProprietario())) {
+
+					return false;
+				}
+
+				projeto.getColaboradores().add(
+						usuarioColaborador);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean addColaborador(
+			Usuario usuarioColaborador) {
+
+		if (usuarioColaborador == null
+				|| projetos.isEmpty()) {
+
+			return false;
+		}
+
+		Projeto projeto =
+				projetos.get(projetos.size() - 1);
+
+		if (usuarioColaborador.equals(
+				projeto.getProprietario())) {
+
+			return false;
+		}
+
+		projeto.getColaboradores().add(
+				usuarioColaborador);
+
 		return true;
 	}
 
 	public List<Projeto> listar() {
-		List<Projeto> listaCopia = new ArrayList<Projeto>();
 
-		for (Projeto p : projetos)
-			for (int i = 0; i < projetos.size(); i++) {
-				if (projetos.get(i).getPrivacidade() == "Pubico") {
-					listaCopia.add(new Projeto(p));
+		List<Projeto> listaCopia =
+				new ArrayList<Projeto>();
+
+		for (Projeto p : projetos) {
+
+			for (int i = 0;
+					i < projetos.size();
+					i++) {
+
+				if (projetos.get(i)
+						.getPrivacidade()
+						== "Pubico") {
+
+					listaCopia.add(
+							new Projeto(p));
 				}
 			}
+		}
 
 		return listaCopia;
 	}
@@ -57,35 +119,148 @@ public class RepositorioProjeto {
 	public Projeto buscar(int codigo) {
 
 		for (Projeto p : projetos) {
-			if (codigo == p.getCdProjeto() && p.getPrivacidade() == "Publico") {
-				return new Projeto(p);
 
+			if (codigo == p.getCdProjeto()
+					&& p.getPrivacidade()
+						== "Publico") {
+
+				return new Projeto(p);
 			}
 		}
+
 		return null;
 	}
 
-	public boolean excluir(int codigoProjeto, Usuario usuarioProprietario) {
+	public Projeto buscarPrivado(int codigo) {
 
-		for (int i = 0; i < Sistema.getInstance().getUsuarios().size(); i++) {
-			if (usuarioProprietario.equals(projetos.get(i).getProprietario())
-					&& codigoProjeto == Sistema.getInstance().getProjetos().get(i).getCdProjeto()) {
-				projetos.remove(projetos.get(i));
+		for (Projeto p : projetos) {
 
-			} else {
-				return false;
+			if (codigo == p.getCdProjeto()) {
+
+				return new Projeto(p);
 			}
 		}
 
-		return true;
+		return null;
 	}
 
-	public boolean existeNome(String nome) {
-		for (int i = 0; i < Sistema.getInstance().getProjetos().size(); i++) {
-			if (Sistema.getInstance().getProjetos().get(i).getNmProjeto().equalsIgnoreCase(nome))
-				return true;
+	public boolean excluir(
+			int codigoProjeto,
+			Usuario usuarioProprietario) {
+
+		if (usuarioProprietario == null) {
+			return false;
 		}
+
+		for (int i = 0;
+				i < projetos.size();
+				i++) {
+
+			Projeto projeto =
+					projetos.get(i);
+
+			if (codigoProjeto
+					== projeto.getCdProjeto()
+					&& usuarioProprietario.equals(
+							projeto.getProprietario())) {
+
+				projetos.remove(i);
+
+				return true;
+			}
+		}
+
 		return false;
 	}
 
+	public boolean alterar(
+			Projeto projetoAlterado) {
+
+		if (projetoAlterado == null) {
+			return false;
+		}
+
+		for (int i = 0;
+				i < projetos.size();
+				i++) {
+
+			if (projetos.get(i)
+					.getCdProjeto()
+					== projetoAlterado.getCdProjeto()) {
+
+				projetos.set(
+						i,
+						projetoAlterado);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean alterarCodigo(
+			int codigoProjeto,
+			String codigoHTML) {
+
+		if (codigoHTML == null) {
+			return false;
+		}
+
+		for (int i = 0;
+				i < projetos.size();
+				i++) {
+
+			if (projetos.get(i)
+					.getCdProjeto()
+					== codigoProjeto) {
+
+				projetos.get(i)
+						.setProjetoCodigo(
+								codigoHTML);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public List<Projeto> buscarProjetosDoUsuario(
+			Usuario usuario) {
+
+		List<Projeto> listaCopia =
+				new ArrayList<Projeto>();
+
+		if (usuario == null) {
+			return listaCopia;
+		}
+
+		for (Projeto p : projetos) {
+
+			if (p.getProprietario()
+					.getCdUsuario()
+					== usuario.getCdUsuario()) {
+
+				listaCopia.add(
+						new Projeto(p));
+			}
+		}
+
+		return listaCopia;
+	}
+
+	public boolean existeNome(String nome) {
+
+		for (Projeto projeto : projetos) {
+
+			if (projeto.getNmProjeto()
+					.equalsIgnoreCase(nome)) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

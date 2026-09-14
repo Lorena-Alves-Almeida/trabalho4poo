@@ -1,10 +1,7 @@
 package trabalho4poo.negocio;
 
-import trabalho4poo.ui.*;
-import trabalho4poo.negocio.*;
-
 import java.util.List;
-import trabalho4poo.dados.*;
+import trabalho4poo.dados.RepositorioProjeto;
 
 public class ControladorProjeto {
 	private RepositorioProjeto repoProjeto;
@@ -13,14 +10,19 @@ public class ControladorProjeto {
 		repoProjeto = new RepositorioProjeto();
 	}
 
-	//criar projeto
+	// criar projeto
 	public boolean add(String nmProjeto, Usuario proprietario, String privacidade) {
 		return repoProjeto.add(nmProjeto, proprietario, privacidade);
 	}
 
-	//procurar o projeto por codigo
+	// procurar o projeto por codigo
 	public Projeto buscar(int codigo) {
 		return repoProjeto.buscar(codigo);
+	}
+
+	// procurar projeto por codigo, incluindo privados
+	public Projeto buscarPrivado(int codigo) {
+		return repoProjeto.buscarPrivado(codigo);
 	}
 
 	// listar
@@ -32,8 +34,36 @@ public class ControladorProjeto {
 		return repoProjeto.excluir(codigoProjeto, usuarioProprietario);
 	}
 
+	public boolean addColaborador(
+			int codigoProjeto,
+			Usuario usuarioColaborador) {
+
+		return repoProjeto.addColaborador(
+				codigoProjeto,
+				usuarioColaborador);
+	}
+
 	public boolean addColaborador(Usuario usuarioColaborador) {
 		return repoProjeto.addColaborador(usuarioColaborador);
 	}
 
+	public boolean alterar(Projeto projeto) {
+		return repoProjeto.alterar(projeto);
+	}
+
+	public boolean alterarCodigo(
+			int codigoProjeto,
+			String codigoHTML) {
+
+		return repoProjeto.alterarCodigo(
+				codigoProjeto,
+				codigoHTML);
+	}
+
+	public List<Projeto> buscarProjetosDoUsuario(
+			Usuario usuario) {
+
+		return repoProjeto.buscarProjetosDoUsuario(
+				usuario);
+	}
 }
